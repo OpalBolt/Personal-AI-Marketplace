@@ -1,0 +1,18 @@
+{
+  "name": "personal-ai-marketplace",
+  "description": "Personal AI tools — evidence-first coding agents and workflow skills",
+  "plugins": [
+    {
+      "name": "blip",
+      "description": "Evidence-first coding agent with adversarial review and SQL-tracked verification",
+      "version": "1.0.0",
+      "source": "./plugins/blip"
+    },
+    {
+      "name": "workflow-skills",
+      "description": "Git commit, issue creation, and PR skills following Conventional Commits and structured templates",
+      "version": "1.0.0",
+      "source": "./plugins/workflow-skills"
+    }
+  ]
+}
