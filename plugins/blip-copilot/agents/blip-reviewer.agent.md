@@ -3,7 +3,6 @@ name: blip-reviewer
 description: >
   Blip internal — Step 8: adversarial code reviewer.
   Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["read"]
 model: claude-sonnet-4.6
 disable-model-invocation: true

@@ -2,7 +2,6 @@
 name: blip-git-hygiene
 description: >
   Blip internal — Step 3: git hygiene check. Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["execute"]
 model: claude-haiku-4.5
 disable-model-invocation: true

@@ -3,7 +3,6 @@ name: blip-implement
 description: >
   Blip internal — Step 7: execute the implementation plan.
   Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["read", "edit", "search", "execute"]
 model: claude-haiku-4.5
 disable-model-invocation: true
