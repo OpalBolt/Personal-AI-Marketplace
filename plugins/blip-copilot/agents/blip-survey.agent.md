@@ -3,7 +3,6 @@ name: blip-survey
 description: >
   Blip internal — Step 5: codebase survey. Runs after Step 2 (Understand).
   Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["read", "search", "execute"]
 model: claude-sonnet-4.6
 disable-model-invocation: true

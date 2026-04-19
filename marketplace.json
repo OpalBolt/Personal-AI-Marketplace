@@ -1,5 +1,8 @@
 {
   "name": "personal-ai-marketplace",
+  "owner": {
+    "name": "OpalBolt"
+  },
   "description": "Personal AI tools — evidence-first coding agents and workflow skills",
   "plugins": [
     {

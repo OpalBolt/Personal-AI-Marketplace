@@ -3,7 +3,6 @@ name: blip-verify
 description: >
   Blip internal — Step 9: verification cascade.
   Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["execute", "read", "search"]
 model: claude-haiku-4.5
 disable-model-invocation: true

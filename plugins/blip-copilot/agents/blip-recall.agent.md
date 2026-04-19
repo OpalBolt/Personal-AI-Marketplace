@@ -3,7 +3,6 @@ name: blip-recall
 description: >
   Blip internal — Step 4: session history recall. Runs in parallel with Step 3.
   Only invoked by the blip orchestrator agent.
-target: github-copilot
 tools: ["execute"]
 model: claude-haiku-4.5
 disable-model-invocation: true

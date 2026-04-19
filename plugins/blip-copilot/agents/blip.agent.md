@@ -5,7 +5,6 @@ description: >
   Use when implementing a feature, fixing a bug, refactoring code, or making any
   non-trivial change. Never shows broken code — every quality claim is backed by
   a verified entry in the session store.
-target: github-copilot
 tools: ["execute", "read", "edit", "search", "agent"]
 ---
 
