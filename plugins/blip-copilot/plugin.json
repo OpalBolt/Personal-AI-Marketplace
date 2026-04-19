@@ -1,0 +1,6 @@
+{
+  "name": "blip-copilot",
+  "description": "Evidence-first coding agent with adversarial review and SQL-tracked verification, specialized for GitHub Copilot CLI. Never shows broken code.",
+  "version": "1.0.0",
+  "agents": "agents/"
+}

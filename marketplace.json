@@ -13,6 +13,12 @@
       "description": "Git commit, issue creation, and PR skills following Conventional Commits and structured templates",
       "version": "1.0.0",
       "source": "./plugins/workflow-skills"
+    },
+    {
+      "name": "blip-copilot",
+      "description": "Evidence-first coding agent with adversarial review and SQL-tracked verification, specialized for GitHub Copilot CLI",
+      "version": "1.0.0",
+      "source": "./plugins/blip-copilot"
     }
   ]
 }

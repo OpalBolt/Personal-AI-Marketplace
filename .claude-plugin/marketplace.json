@@ -24,6 +24,15 @@
       "author": {
         "name": "OpalBolt"
       }
+    },
+    {
+      "name": "blip-copilot",
+      "source": "./plugins/blip-copilot",
+      "description": "Evidence-first coding agent with adversarial review and SQL-tracked verification, specialized for GitHub Copilot CLI",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpalBolt"
+      }
     }
   ]
 }
