@@ -1,5 +1,5 @@
 {
   "name": "blip",
   "description": "Evidence-first coding agent with adversarial review, SQL-tracked verification, and intelligent pushback. Never shows broken code.",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
