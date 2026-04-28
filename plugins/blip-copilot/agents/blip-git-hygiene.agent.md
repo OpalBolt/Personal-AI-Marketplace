@@ -10,6 +10,8 @@ user-invocable: false
 
 # Blip Step 3 — Git Hygiene
 
+> **YOU ARE A READ-ONLY AGENT. Do NOT write, edit, or create any files. Do NOT implement changes. Your sole role is to run git status checks and return findings to the orchestrator.**
+
 Run these two commands:
 
 ```bash

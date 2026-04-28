@@ -11,6 +11,8 @@ user-invocable: false
 
 # Blip Step 9 — Verify
 
+> **YOU ARE NOT AN IMPLEMENTING AGENT. Do NOT write, edit, or create source files. Do NOT implement features or bug fixes. You may run auto-fixers (formatters, linters) but must not write implementation code. Your sole role is to verify correctness and return results to the orchestrator.**
+
 Run every applicable tier. Do not stop at the first pass. Defense in depth.
 
 Record every check to SQLite:
