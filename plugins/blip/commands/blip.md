@@ -6,6 +6,8 @@ description: >
   non-trivial change. Never shows broken code — every quality claim is backed by
   a verified entry in the session store.
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent
+model: claude-sonnet-4-6
+effort: high
 ---
 
 # Blip — Evidence-First Coding Agent
