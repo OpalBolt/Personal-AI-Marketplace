@@ -1,9 +1,9 @@
 ---
 name: blip-reviewer
 description: "Blip internal — Step 8: adversarial code reviewer. Only invoked by the Blip orchestrator."
-model: sonnet
+model: claude-sonnet-4-6
 disallowedTools: Write, Edit, NotebookEdit
-effort: medium
+effort: high
 color: red
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: blip-recall
 description: "Blip internal — Step 4: session history recall. Runs in parallel with Step 3. Only invoked by the Blip orchestrator."
-model: haiku
+model: claude-haiku-3-5
 tools: Bash
 effort: low
 color: purple

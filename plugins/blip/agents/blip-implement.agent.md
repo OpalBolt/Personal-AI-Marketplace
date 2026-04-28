@@ -1,7 +1,7 @@
 ---
 name: blip-implement
 description: "Blip internal — Step 7: execute the implementation plan. Only invoked by the Blip orchestrator."
-model: haiku
+model: claude-haiku-4-5
 tools: Read, Write, Edit, Glob, Bash
 effort: medium
 color: green

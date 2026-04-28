@@ -1,7 +1,7 @@
 ---
 name: blip-reviewer-quick
 description: "Blip internal — Step 8 (surface): fast parallel reviewer for Large tasks. Checks style regressions, obvious issues, naming, and formatting. Only invoked by the Blip orchestrator alongside blip-reviewer."
-model: haiku
+model: claude-haiku-3-5
 disallowedTools: Write, Edit, NotebookEdit
 effort: low
 color: yellow

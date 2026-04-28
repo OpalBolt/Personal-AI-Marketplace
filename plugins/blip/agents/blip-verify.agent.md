@@ -1,7 +1,7 @@
 ---
 name: blip-verify
 description: "Blip internal — Step 9: verification cascade. Only invoked by the Blip orchestrator."
-model: haiku
+model: claude-haiku-4-5
 tools: Bash, Read, Glob
 effort: medium
 color: orange

@@ -1,7 +1,7 @@
 ---
 name: blip-survey
 description: "Blip internal — Step 5: codebase survey. Runs after Step 2 (Understand). Only invoked by the Blip orchestrator."
-model: haiku
+model: claude-haiku-4-5
 tools: Read, Grep, Glob, Bash
 effort: medium
 color: blue

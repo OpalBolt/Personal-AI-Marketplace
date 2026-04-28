@@ -1,7 +1,7 @@
 ---
 name: blip-git-hygiene
 description: "Blip internal — Step 3: git hygiene check. Only invoked by the Blip orchestrator."
-model: haiku
+model: claude-haiku-3-5
 tools: Bash
 effort: low
 color: yellow
