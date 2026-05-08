@@ -1,0 +1,5 @@
+{
+  "name": "refine-issue",
+  "description": "Fetch a GitHub issue and refine its description through a focused interview to create implementation-ready specifications. Use when a user wants to improve an issue's clarity, add missing details, or make it more actionable for AI tools or developers.",
+  "version": "1.0.0"
+}
