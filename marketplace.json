@@ -22,6 +22,12 @@
       "description": "Evidence-first coding agent with adversarial review and SQL-tracked verification, specialized for GitHub Copilot CLI",
       "version": "1.0.0",
       "source": "./plugins/blip-copilot"
+    },
+    {
+      "name": "interview-me",
+      "description": "Spec interviewer for tools and features. Reads a file or requirement, quickly scans the codebase for context, then conducts a focused 1-on-1 interview to produce a clean specification document.",
+      "version": "1.0.0",
+      "source": "./plugins/interview-me"
     }
   ]
 }
