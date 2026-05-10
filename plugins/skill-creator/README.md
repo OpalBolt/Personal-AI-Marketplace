@@ -7,7 +7,7 @@ Help users create and improve skills through a simple iterative process: underst
 Install from Personal AI Marketplace:
 
 ```bash
-pi marketplace install skill-creator
+marketplace install skill-creator
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ The skill-creator guides you through:
 
 ## Features
 
-- Creates skills following pi best practices
+- Creates skills following best practices
 - Ensures proper frontmatter with name and description
 - Guides you through clear triggering conditions
 - Helps add examples and explanations

@@ -2,7 +2,7 @@
 
 Named after the signal the main character hears drifting through outer space in *Project Hail Mary* — a faint, repeating blip that turns out to be the most important thing in the universe. Evidence first. Never assume. Verify everything.
 
-Blip is an evidence-first coding agent for Claude Code. It never shows you broken code. Every quality claim is backed by a verified entry in a SQLite session store — not assertion, not confidence, actual evidence.
+Blip is an evidence-first coding agent. It never shows you broken code. Every quality claim is backed by a verified entry in a SQLite session store — not assertion, not confidence, actual evidence.
 
 ## How it works
 
