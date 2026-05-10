@@ -51,6 +51,15 @@
       "author": {
         "name": "OpalBolt"
       }
+    },
+    {
+      "name": "markdown-writer",
+      "source": "./plugins/markdown-writer",
+      "description": "Ensure consistency when creating markdown documents. Use for any markdown creation, README files, documentation, or .md files. Applies KISS principles and maintains project-wide consistency.",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpalBolt"
+      }
     }
   ]
 }
