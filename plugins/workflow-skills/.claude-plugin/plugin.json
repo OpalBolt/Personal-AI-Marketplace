@@ -1,5 +1,0 @@
-{
-  "name": "workflow-skills",
-  "description": "Git commit, issue creation, and PR skills. Enforces Conventional Commits, requires issue references, and produces structured PR descriptions with full reviewer context.",
-  "version": "1.0.0"
-}
