@@ -1,13 +1,13 @@
 # Productivity Skills
 
-A comprehensive suite of productivity skills designed to enhance AI-assisted development workflows. This marketplace entry bundles 7 essential skills into one cohesive, easy-to-install package.
+A comprehensive suite of productivity skills designed to enhance AI-assisted development workflows. This marketplace entry bundles 9 essential skills into one cohesive, easy-to-install package.
 
 ## Included Skills
 
 ### interview-me
-Spec interviewer for tools and features. Reads a file or requirement, quickly scans the codebase for context, then conducts a focused 1-on-1 interview using AskUserQuestion to produce a clean specification document.
+Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree.
 
-**Use when:** User wants to be interviewed about a tool or feature, types `/interview-me`, or says things like "help me spec out X", "interview me about X", or "I want to build X".
+**Use when:** User wants to stress-test a plan, get grilled on their design, be interviewed about requirements, or mentions "grill me" or "interview me".
 
 ### markdown-writer
 Create concise, consistent markdown documents following KISS principles. Ensures content is to-the-point, filters fluff, splits long documents, uses minimal emojis, and maintains relaxed but professional tone.
@@ -20,7 +20,7 @@ Fetch a GitHub issue and refine its description through a focused interview to c
 **Use when:** A user wants to improve an issue's clarity, add missing details, or make it more actionable for AI tools or developers.
 
 ### skill-creator
-Create new skills or improve existing ones.
+Create new agent skills with proper structure, progressive disclosure, and bundled resources.
 
 **Use when:** Users want to create a skill from scratch, edit an existing skill, or capture a workflow as a reusable skill. Trigger on phrases like "make this a skill", "create a skill for X", "turn this workflow into a skill", or "improve the X skill".
 
@@ -39,13 +39,24 @@ Create a well-structured GitHub pull request that gives the reviewer full contex
 
 **Use when:** About to run `gh pr create`, open a pull request, or produce a PR for completed work. Also at the end of any autonomous agent loop that resolves a GitHub issue.
 
+### to-issues
+Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.
+
+**Use when:** User wants to convert a plan into issues, create implementation tickets, or break down work into issues.
+
+### caveman
+Ultra-compressed communication mode that cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy.
+
+**Use when:** User says "caveman mode", "talk like caveman", "use caveman", "less tokens", "be brief", or invokes /caveman.
+
 ## Installation
 
-Install this productivity suite as a single marketplace entry to get all 7 skills at once.
+Install this productivity suite as a single marketplace entry to get all 9 skills at once.
 
 ## Credits
 
 - **interview-me** is based on the original work from [Sorbh/interview-me](https://github.com/Sorbh/interview-me) - Huge thanks for the inspiration and foundation!
+- **to-issues**, **caveman**, and enhancements to **skill-creator** and **interview-me** are adapted from [Matt Pocock's skills collection](https://github.com/mattpocock/skills) - Thank you for the excellent work on tracer-bullet issue breakdown, ultra-efficient communication patterns, and skill creation workflows!
 
 ## License
 
