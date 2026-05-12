@@ -1,5 +1,0 @@
-{
-  "name": "interview-me",
-  "description": "Spec interviewer for tools and features. Reads a file or requirement, quickly scans the codebase for context, then conducts a focused 1-on-1 interview using AskUserQuestion to produce a clean specification document.",
-  "version": "1.0.0"
-}
