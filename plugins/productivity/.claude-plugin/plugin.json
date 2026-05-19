@@ -1,6 +1,6 @@
 {
   "name": "productivity",
-  "description": "A comprehensive suite of 7 productivity skills for AI-assisted development: spec interviewing, markdown writing, issue refinement, skill creation, git commits, issue tracking, and pull requests. Installable as one cohesive unit.",
+  "description": "A comprehensive suite of 8 productivity skills for AI-assisted development: collaborative idea jamming, spec interviewing, markdown writing, issue refinement, skill creation, git commits, issue tracking, and pull requests. Installable as one cohesive unit.",
   "version": "1.0.0",
   "skills": "skills/"
 }
