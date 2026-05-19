@@ -18,6 +18,12 @@
       "source": "./plugins/blip-copilot"
     },
     {
+      "name": "personal",
+      "description": "Personal environment preferences — defines preferred CLI tools and conventions for this setup.",
+      "version": "1.0.0",
+      "source": "./plugins/personal"
+    },
+    {
       "name": "productivity",
       "description": "A comprehensive suite of 7 productivity skills for AI-assisted development: spec interviewing, markdown writing, issue refinement, skill creation, git commits, issue tracking, and pull requests. Installable as one cohesive unit.",
       "version": "1.0.0",
