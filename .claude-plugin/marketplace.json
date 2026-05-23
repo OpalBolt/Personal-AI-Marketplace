@@ -33,6 +33,24 @@
       "author": {
         "name": "OpalBolt"
       }
+    },
+    {
+      "name": "personal",
+      "source": "./plugins/personal",
+      "description": "skills used for personal operations",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpalBolt"
+      }
+    },
+    {
+      "name": "testing",
+      "source": "./plugins/testing",
+      "description": "testing",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpalBolt"
+      }
     }
   ]
 }
