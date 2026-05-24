@@ -16,7 +16,7 @@ description: Defines which CLI tools to use for common operations in this enviro
 
 ## Nix Environments
 
-If a `.nix` file or `flake.nix` exists in the project root, run all build and development commands through Nix rather than invoking tools directly. This ensures tools are available regardless of what is installed on the host system.
+If a `.nix` file or `flake.nix` exists in the project root, run all build and development commands through Nix rather than invoking tools directly. This ensures tools are available regardless of what is installed on the host system. Never try to run tools directly from the nix store,
 
 - Run a command in the dev environment: `nix develop --command python main.py`
 - Run a shell script in the dev environment: `nix develop --command bash -c "mkdir build && cmake .. && make"`
