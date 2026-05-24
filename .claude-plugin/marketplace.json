@@ -42,15 +42,6 @@
       "author": {
         "name": "OpalBolt"
       }
-    },
-    {
-      "name": "testing",
-      "source": "./plugins/testing",
-      "description": "testing",
-      "version": "1.0.0",
-      "author": {
-        "name": "OpalBolt"
-      }
     }
   ]
 }
