@@ -10,7 +10,7 @@ Interview the user relentlessly about a plan or design until reaching shared und
 **Use when:** User wants to stress-test a plan, get grilled on their design, be interviewed about requirements, or mentions "grill me" or "interview me".
 
 ### markdown-writer
-Create concise, consistent markdown documents following KISS principles. Ensures content is to-the-point, filters fluff, splits long documents, uses minimal emojis, and maintains relaxed but professional tone.
+Write markdown that reads human, not AI slop. Enforces plain words, active voice, short sentences, and clean structure based on Simplified Technical English principles.
 
 **Use when:** Creating README files, documentation, guides, or any .md files.
 

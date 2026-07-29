@@ -1,180 +1,70 @@
 ---
 name: markdown-writer
-description: Create concise, consistent markdown documents following KISS principles. Use when creating README files, documentation, guides, or any .md files. Ensures content is to-the-point, filters fluff, splits long documents, uses minimal emojis, and maintains relaxed but professional tone. Trigger on any markdown creation or documentation task.
+description: Write markdown that reads human, not AI slop — READMEs, docs, guides, comments, PR text. Enforces plain words, active voice, short sentences, clean structure, based on ASD-STE100 Simplified Technical English. Use when creating or editing any .md file, writing documentation, or when prose sounds robotic or AI-generated. Applies to prose, never code or identifiers.
 ---
 
 # Markdown Writer
 
-Help create concise markdown documents that follow KISS principles and maintain consistency.
+Write prose that gets to the point and sounds like a person wrote it. The rules below are adapted from ASD-STE100 Simplified Technical English (STE) and applied to everyday markdown. Apply them to every doc. They cover docs, READMEs, PR text, error messages, release notes, comments — never code.
 
-## Writing Principles
+## Words
 
-Apply these filters to every document:
+- One name for one thing. Do not rename the same item mid-doc.
+- Pick the short common word: use (not utilize/leverage), start (not begin/commence/initiate).
+- No marketing adjectives: seamless, robust, powerful, effortless. Cut them.
+- American spelling.
 
-### KISS - Keep It Simple
-- Get to the point in the first sentence
-- Cut unnecessary words
-- Prefer bullets over prose when listing items
-- If it doesn't add value, remove it
+## Verbs
 
-### Auto-filter Fluff
-Remove these patterns:
-- "It's important to note that..." → Just state it
-- "This section will cover..." → Start with the content
-- "As you can see..." → Show instead
-- "You might want to consider..." → Use "Use X when..."
+- Active voice. "The parser reads the file", not "the file is read".
+- A verb, not a noun phrase. "Analyze the log", not "perform an analysis of the log".
+- No stacked hedges. "This improves X", not "it is important to note that this may help to improve X".
+- No "-ing" main verb where a simple tense works.
 
-### Document Length
-- Single file: Under ~300 lines
-- Over 300 lines: Suggest splitting into multiple files
-- Prefer `doc/` folder for multi-file docs
-- Check for existing .md files first — follow that convention
+## Sentences
 
-### Tone
-- Relaxed but professional (NOT posh)
-- Write like explaining to a colleague
-- Avoid corporate jargon and buzzwords
+- One idea per sentence. Max ~25 words descriptive, ~20 words for instructions.
+- Put a condition before its command: "If the build fails, check the log."
 
-### Emoji Usage
-- Default: No emojis
-- Acceptable: Tables for status (✅ ❌ ⚠️)
-- Acceptable: Where emojis convey info text can't
-- NOT acceptable: Decoration (🎉 🚀 ✨)
+## Punctuation
 
-## Workflow
+- No semicolons. Write two sentences.
+- No contractions in formal docs. A README can stay casual.
 
-Copy this checklist for each markdown task:
+## AI slop — cut on sight
 
-```
-Markdown Creation:
-- [ ] Check existing .md files for conventions
-- [ ] Verify length is appropriate (split if >300 lines)
-- [ ] Remove all fluff patterns
-- [ ] Apply KISS principles
-- [ ] Use minimal/purposeful emojis only
-- [ ] Ensure relaxed but professional tone
-```
+- "It is important to note that…" → state it.
+- "This section covers…" → start with the content.
+- "As you can see…" → show it, do not narrate it.
+- "You might want to consider…" → "Use X when Y."
+- "In order to" → "to".
+- leverage / utilize / facilitate → use / use / help.
 
-**Step 1: Check conventions**
+## Markdown delivery
 
-```bash
-find . -name "*.md" -type f | head -20
-```
+- First sentence carries the point. No throat-clearing.
+- Bullets for lists, prose for narrative. Do not bullet a single item.
+- Clean heading hierarchy: one `#`, then `##`, then `###`.
+- Code blocks get a language tag.
+- Descriptive link text, not "click here".
+- Tables for structured data only.
+- Emoji: none by default. OK for status (✅ ❌ ⚠️), never decoration.
 
-Note: location (root/docs/doc), heading style, naming patterns
+## Self-lint (run before you return the text)
 
-**Step 2: Understand requirements (for new docs or major edits)**
+1. Any sentence over the cap? Split it.
+2. Any semicolon? Replace with a period.
+3. Any contraction? Expand it (formal docs).
+4. Passive voice with a known actor? Make it active.
+5. "-ing" main verb, nominalization ("perform an analysis"), or phrasal verb ("spin up")? Use a plain verb.
+6. Marketing adjective? Cut it.
+7. Same thing named two ways? Pick one name.
 
-For new markdown documents or significant restructuring, see [questions.md](questions.md) to explore:
-- Purpose and audience
-- What's essential vs nice-to-have
-- Structure and organization preferences
-- Tone and style expectations
+## Strict mode
 
-Skip this step for minor edits or when requirements are clear.
+For runbooks, safety text, and error messages: cap every sentence at 20 words, no contractions, one instruction per sentence, numbered vertical steps with one action each. Otherwise stay relaxed (STE-flavored, so the text keeps enough range to read naturally).
 
-**Step 3: Write concise content**
+Write only the requested text. No preamble, no summary, no closing remarks.
 
-Apply filters from Writing Principles section above. Question every paragraph: "Does the reader need this?"
-
-**Step 4: Format consistently**
-
-- Use proper heading hierarchy (# ## ### ####)
-- Add language tags to code blocks
-- Use descriptive link text
-- Tables for structured data only
-
-**Step 5: Quality check**
-
-Run through checklist. If any item fails, revise.
-
-## Document Types
-
-### README Files
-1. One-line description
-2. Quick start (get them running)
-3. Core features (bullets, not essays)
-4. Examples (when they convey useful information)
-5. Links to detailed docs
-
-Don't include: backstories, detailed API docs (link instead), complete changelogs
-
-### Documentation Guides
-1. What (brief explanation)
-2. Why (one sentence on when to use)
-3. How (step-by-step with examples)
-4. Troubleshooting (if needed)
-
-### Technical Reference
-- Headings match API/function names
-- Code examples for each item
-- Parameter tables with types
-- Return value examples
-
-## Examples
-
-**Good README structure:**
-
-```
-# Tool Name
-
-One-line description.
-
-## Installation
-
-[command]
-
-## Usage
-
-[command with example]
-
-## Options
-
-- --flag — Description
-```
-
-**Bad patterns to avoid:**
-
-Starting with: "Welcome to..." or "This tool was created to..."
-
-Including: "## Introduction - In this section we will cover..."
-
-**When to split files:**
-
-Good structure for 300+ lines:
-```
-doc/
-├── README.md      # Overview and quick start
-├── setup.md       # Installation details
-├── config.md      # Configuration
-└── examples.md    # Use cases
-```
-
-Bad: Single 800-line README with everything
-
-## Edge Cases
-
-**Inconsistent project conventions:**
-- Use most common pattern
-- Note inconsistency to user
-- Suggest standardizing
-
-**User wants verbose docs:**
-- Explain KISS principles
-- Offer separate detailed files
-- Keep main doc concise with links
-
-**Emoji usage unclear:**
-- Default to no emoji
-- Ask if uncertain
-- Tables and status are usually fine
-
-## Quality Verification
-
-Before delivering, confirm:
-1. Purpose clear from first sentence?
-2. Every paragraph necessary?
-3. Removing any section would reduce usefulness?
-4. Sounds human-written?
-
-If no to any: revise before delivering.
+---
+Rules adapted from ASD-STE100 Simplified Technical English. Free official standard (do not paste it in full; it is copyrighted): <https://asd-ste100.org>
