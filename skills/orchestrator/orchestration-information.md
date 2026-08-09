@@ -38,14 +38,15 @@ Plans live outside your repo so they never pollute it.
 
 ## Initialize
 
-Run the init script from inside the repo. It creates the plan directory and
-prints its path.
+Run the init script from inside the repo. It creates the plan directory,
+writes its path to `./.env` as `AI_PLAN_DIR`, and prints it.
 
 ```sh
 skills/orchestrator/init.sh
 ```
 
-Point `jam-with-me` and `to-issues` at that path when they write.
+Skills read `AI_PLAN_DIR` from `.env` instead of re-deriving the path, so
+`jam-with-me`, `to-issues`, and the orchestrator all agree on one location.
 
 ## Models
 

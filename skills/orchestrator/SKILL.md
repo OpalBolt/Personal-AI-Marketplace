@@ -19,9 +19,9 @@ already sliced (one file per slice) in a plan directory. You consume it.
 
 ## Before you run
 
-- Resolve the plan directory. Default:
-  `~/.local/share/ai-plans/<repo-slug>/`, where repo-slug is the basename of
-  the repo root.
+- Resolve the plan directory: read `AI_PLAN_DIR` from `.env` in the repo root
+  (written there by `init.sh`). If `.env` has no `AI_PLAN_DIR`, run `init.sh`
+  first.
 - Discover slices: glob `slice-*.md` in the plan dir, sort by the `NN` prefix.
   That is your run order.
 - Find the worker model in `models.json` (sibling), keyed by runtime then model
@@ -89,7 +89,6 @@ out-of-lane changes.
 
 ## Conventions
 
-- Plan directory: `~/.local/share/ai-plans/<repo-slug>/`. repo-slug is the
-  basename of the repo root.
+- Plan directory: `AI_PLAN_DIR` from the repo's `.env` (set by `init.sh`).
 - Worker scratch spec: `/tmp/orchestrator/<slice-slug>.md`.
 - The worker subagent is `worker`.
