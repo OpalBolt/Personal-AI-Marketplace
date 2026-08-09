@@ -2,8 +2,10 @@
 set -euo pipefail
 
 # Link every skill in ./skills into each tool's global skills directory.
-# Removes stale links to skills that no longer exist here.
-# Skips tools that aren't installed; creates the skills dir if missing.
+# Link every agent in ./<tool>/agents into that tool's global agents directory.
+# Removes stale links to skills/agents that no longer exist here.
+# Skips tools that aren't installed; skips a tool's agents if it has no
+# ./<tool>/agents source folder. Creates the dest dirs if missing.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC="$SCRIPT_DIR/skills"
@@ -16,36 +18,45 @@ tools=(
   "copilot|copilot|$HOME/.copilot/skills"
 )
 
-# ponytail: link per-skill, not the whole dir, so a tool's own pre-existing skills survive.
+# ponytail: link each entry, not the whole dir, so a tool's own pre-existing
+# skills/agents survive. Replace links that already point into src; skip real
+# files; drop links whose source has vanished.
+link_contents() {
+  local src="$1" dest="$2" label="$3"
+  mkdir -p "$dest"
+  local item name link target
+  for item in "$src"/*; do
+    [ -e "$item" ] || [ -L "$item" ] || continue
+    name="$(basename "$item")"
+    link="$dest/$name"
+    if [ -L "$link" ]; then
+      rm "$link"
+    elif [ -e "$link" ]; then
+      echo "[$label] $name already exists (not a symlink), skipping"
+      continue
+    fi
+    ln -s "$item" "$link"
+    echo "[$label] linked $name"
+  done
+  for link in "$dest"/*; do
+    [ -L "$link" ] || continue
+    target="$(readlink -f "$link")"
+    case "$target" in
+      "$src"/*) ;;
+      *) continue ;;
+    esac
+    [ -e "$target" ] || { rm "$link"; echo "[$label] removed stale $(basename "$link")"; }
+  done
+}
+
 for entry in "${tools[@]}"; do
   IFS='|' read -r name bin dest <<< "$entry"
 
   command -v "$bin" >/dev/null 2>&1 || { echo "[$name] not installed, skipping"; continue; }
 
-  mkdir -p "$dest"
-  for skill in "$SRC"/*/; do
-    [ -d "$skill" ] || continue
-    skill_name="$(basename "$skill")"
-    link="$dest/$skill_name"
-    if [ -L "$link" ]; then
-      rm "$link"
-    elif [ -e "$link" ]; then
-      echo "[$name] $skill_name already exists (not a symlink), skipping"
-      continue
-    fi
-    ln -s "$skill" "$link"
-    echo "[$name] linked $skill_name"
-  done
+  link_contents "$SRC" "$dest" "$name"
 
-  # Remove links to skills no longer in ./skills (deleted or renamed).
-  for link in "$dest"/*; do
-    [ -L "$link" ] || continue
-    target="$(readlink -f "$link")"
-    # Only touch links that pointed into our source tree.
-    case "$target" in
-      "$SRC"/*) ;;
-      *) continue ;;
-    esac
-    [ -e "$target" ] || { rm "$link"; echo "[$name] removed stale $(basename "$link")"; }
-  done
+  agents_src="$SCRIPT_DIR/$name/agents"
+  [ -d "$agents_src" ] || continue
+  link_contents "$agents_src" "$(dirname "$dest")/agents" "$name"
 done
