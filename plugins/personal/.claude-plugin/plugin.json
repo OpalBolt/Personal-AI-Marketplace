@@ -1,6 +1,0 @@
-{
-  "name": "personal",
-  "description": "Personal environment preferences — defines preferred CLI tools and conventions for this setup.",
-  "version": "1.0.0",
-  "skills": "skills/"
-}
