@@ -1,0 +1,7 @@
+{
+  "default": { "worker": "inherited" },
+  "opencode": {
+    "zai-coding-plan/glm-5.2": { "worker": "glm-4.7" },
+    "deepseek-pro": { "worker": "deepseek-lite" }
+  }
+}
