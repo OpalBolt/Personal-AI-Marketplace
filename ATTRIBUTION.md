@@ -12,3 +12,4 @@ Adapted skills live in `skills/`; this file is the single record of what came fr
 | tdd (tests.md, seam vocabulary) | codebase-design | seam/testability vocabulary folded in and trimmed per the map's trim ruling |
 | prototype | prototype | examples translated from TypeScript to Python / neutral pseudo-code |
 | handoff | handoff | "Skill tool" phrasing neutralized |
+| writing-for-agents | writing-for-agents | adopted verbatim; replaces skill-creator as the skill-authoring standard |

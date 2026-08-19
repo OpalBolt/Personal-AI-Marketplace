@@ -5,7 +5,7 @@ description: Write or regenerate the root AGENTS.md context file for a project b
 
 # Agent Writer
 
-Write a tight `AGENTS.md` at the repo root. Not persona agents. Not `.github/agents/*.md`. One file, root level.
+Write a tight `AGENTS.md` at the repo root. Not persona agents. Not `.github/agents/*.md`. One file, root level. For how to write it — pointer wording, information hierarchy, pruning — follow `writing-for-agents`; this skill owns the workflow, not the writing style.
 
 ## Governing Principle
 
