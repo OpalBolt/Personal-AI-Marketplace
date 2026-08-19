@@ -1,6 +1,6 @@
 ---
 name: jam-with-me
-description: Collaborative idea jamming session. Always trigger when the user says "jam with me" or invokes /jam-with-me. Takes a vague thought, concept, or project seed and refines it through conversation into a concise idea bundle to hand off to other skills.
+description: Collaborative idea jamming session — the divergent mode: explore, follow energy. Always trigger when the user says "jam with me" or invokes /jam-with-me. Takes a vague thought, concept, or project seed and refines it through conversation into a concise idea bundle to hand off to other skills.
 ---
 
 # Jam With Me
@@ -43,4 +43,4 @@ What to do with this now. Point toward the right skill or action.
 
 ## After the Bundle
 
-Suggest where to take it next — `interview-me` to spec it out, `issue` to track it, `markdown-writer` to write it up, or just start building.
+Suggest where to take it next — `grilling` to converge the open questions into settled decisions, `issue` to track it, `markdown-writer` to write it up, or just start building.
