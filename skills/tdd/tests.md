@@ -81,5 +81,3 @@ For deciding where seams belong and what they should expose:
 - **Depth** — behaviour per unit of interface. A deep module hides a lot behind a small interface; a shallow one is nearly as complex inside as out.
 - **Leverage / locality** — what depth buys: callers learn less to do more; changes, bugs, and knowledge concentrate in one place.
 - **The interface is the test surface.** Callers and tests cross the same seam — wanting to test past the interface is a design smell, not a mocking problem.
-
-Vocabulary adapted from [mattpocock/skills](https://github.com/mattpocock/skills) — codebase-design.

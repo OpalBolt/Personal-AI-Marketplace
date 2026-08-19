@@ -36,7 +36,3 @@ When the shape of that interface is itself in question — how deep the module i
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
-
----
-
-Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) — tdd; seam vocabulary folded in from his codebase-design.
