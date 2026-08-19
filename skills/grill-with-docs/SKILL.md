@@ -20,3 +20,5 @@ Run `grilling` for the interview mechanics — rounds, frontier, recommended ans
 - **Update `CONTEXT.md` inline, as each term is resolved** — batching loses them. It is a glossary and nothing else: define what a term IS, keep implementation detail, specs, and scratch out. Format and multi-context layout: [CONTEXT-FORMAT.md](CONTEXT-FORMAT.md).
 - **Create files lazily** — only when you have something to write. First resolved term creates `CONTEXT.md`; first ADR creates `docs/adr/`.
 - **Offer an ADR when all three hold:** hard to reverse, surprising without context, a real trade-off. Format and what qualifies: [ADR-FORMAT.md](ADR-FORMAT.md).
+
+When the frontier empties and the user confirms shared understanding, hand off to `to-spec` to synthesize the session into a spec.

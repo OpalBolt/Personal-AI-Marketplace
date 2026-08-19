@@ -14,3 +14,4 @@ Adapted skills live in `skills/`; this file is the single record of what came fr
 | handoff | handoff | "Skill tool" phrasing neutralized |
 | writing-for-agents | writing-for-agents | adopted verbatim; replaces skill-creator as the skill-authoring standard |
 | grill-with-docs | grill-with-docs + domain-modeling | merged into one skill per map ruling; grilling stays the pure primitive beneath; ADR gate deduped — criteria in SKILL.md, elaboration in ADR-FORMAT.md |
+| to-spec | to-spec | tracker machinery stripped (setup-matt-pocock-skills dep, ready-for-agent label); publishes to `.scratch/<feature>/spec.md`; upstream chain noted (grill-with-docs sessions, wayfinder maps) |
