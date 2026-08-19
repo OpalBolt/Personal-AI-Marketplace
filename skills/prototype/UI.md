@@ -57,17 +57,14 @@ Variants must be **structurally different** — different layout, different info
 
 Create a single switcher component on the route:
 
-```tsx
-// pseudo-code — adapt to the project's framework
-const variant = searchParams.get('variant') ?? 'A';
-return (
-  <>
-    {variant === 'A' && <VariantA {...data} />}
-    {variant === 'B' && <VariantB {...data} />}
-    {variant === 'C' && <VariantC {...data} />}
-    <PrototypeSwitcher variants={['A','B','C']} current={variant} />
-  </>
-);
+```
+# pseudo-code — adapt to the project's framework
+variant = search_params.get("variant") or "A"
+
+if variant == "A": render VariantA(data)
+if variant == "B": render VariantB(data)
+if variant == "C": render VariantC(data)
+render PrototypeSwitcher(variants=["A", "B", "C"], current=variant)
 ```
 
 For sub-shape A (existing page): keep all the existing data fetching above the switcher; only the rendered subtree changes per variant.

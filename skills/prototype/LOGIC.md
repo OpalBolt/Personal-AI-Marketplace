@@ -25,7 +25,7 @@ Put the actual logic — the bit that's answering the question — in a single `
 
 The right shape depends on the question:
 
-- **A pure reducer** — `(state, action) => state`. Good when actions are discrete events and state is a single value.
+- **A pure reducer** — `(state, action) -> state`. Good when actions are discrete events and state is a single value.
 - **A state machine** — explicit states and transitions. Good when "which actions are even legal right now" is part of the question.
 - **A small set of pure functions** over a plain data type. Good when there's no implicit current state — just transformations.
 - **A class or module with a clear method surface** when the logic genuinely owns ongoing internal state.

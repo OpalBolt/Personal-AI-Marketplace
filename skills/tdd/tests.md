@@ -4,14 +4,13 @@
 
 **Integration-style**: Test through real interfaces, not mocks of internal parts.
 
-```typescript
-// GOOD: Tests observable behavior
-test("user can checkout with valid cart", async () => {
-  const cart = createCart();
-  cart.add(product);
-  const result = await checkout(cart, paymentMethod);
-  expect(result.status).toBe("confirmed");
-});
+```python
+# GOOD: tests observable behavior
+def test_user_can_checkout_with_valid_cart():
+    cart = create_cart()
+    cart.add(product)
+    result = checkout(cart, payment_method)
+    assert result.status == "confirmed"
 ```
 
 Characteristics:
@@ -26,13 +25,12 @@ Characteristics:
 
 **Implementation-detail tests**: Coupled to internal structure.
 
-```typescript
-// BAD: Tests implementation details
-test("checkout calls paymentService.process", async () => {
-  const mockPayment = jest.mock(paymentService);
-  await checkout(cart, payment);
-  expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
-});
+```python
+# BAD: tests implementation details
+def test_checkout_calls_payment_service_process(mocker):
+    mock_process = mocker.patch("checkout.payment_service.process")
+    checkout(cart, payment)
+    mock_process.assert_called_with(cart.total)
 ```
 
 Red flags:
@@ -44,36 +42,32 @@ Red flags:
 - Test name describes HOW not WHAT
 - Verifying through external means instead of interface
 
-```typescript
-// BAD: Bypasses interface to verify
-test("createUser saves to database", async () => {
-  await createUser({ name: "Alice" });
-  const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
-  expect(row).toBeDefined();
-});
+```python
+# BAD: bypasses interface to verify
+def test_create_user_saves_to_database(db):
+    create_user(name="Alice")
+    row = db.query("SELECT * FROM users WHERE name = ?", ["Alice"])
+    assert row is not None
 
-// GOOD: Verifies through interface
-test("createUser makes user retrievable", async () => {
-  const user = await createUser({ name: "Alice" });
-  const retrieved = await getUser(user.id);
-  expect(retrieved.name).toBe("Alice");
-});
+# GOOD: verifies through interface
+def test_create_user_makes_user_retrievable():
+    user = create_user(name="Alice")
+    retrieved = get_user(user.id)
+    assert retrieved.name == "Alice"
 ```
 
 **Tautological tests**: Expected value restates the implementation, so the test passes by construction.
 
-```typescript
-// BAD: Expected value is recomputed the way the code computes it
-test("calculateTotal sums line items", () => {
-  const items = [{ price: 10 }, { price: 5 }];
-  const expected = items.reduce((sum, i) => sum + i.price, 0);
-  expect(calculateTotal(items)).toBe(expected);
-});
+```python
+# BAD: expected value is recomputed the way the code computes it
+def test_calculate_total_sums_line_items():
+    items = [{"price": 10}, {"price": 5}]
+    expected = sum(item["price"] for item in items)
+    assert calculate_total(items) == expected
 
-// GOOD: Expected value is an independent, known literal
-test("calculateTotal sums line items", () => {
-  expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15);
-});
+# GOOD: expected value is an independent, known literal
+def test_calculate_total_sums_line_items():
+    assert calculate_total([{"price": 10}, {"price": 5}]) == 15
 ```
 
 ## Seam vocabulary
