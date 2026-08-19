@@ -1,6 +1,7 @@
 ---
 name: jam-with-me
-description: Collaborative idea jamming session — the divergent mode: explore, follow energy. Always trigger when the user says "jam with me" or invokes /jam-with-me. Takes a vague thought, concept, or project seed and refines it through conversation into a concise idea bundle to hand off to other skills.
+description: Thinking-partner session that turns a rough idea into a concise idea bundle through open-ended conversation. The divergent mode, grilling is the convergent one. Invoke with /jam-with-me.
+disable-model-invocation: true
 ---
 
 # Jam With Me
