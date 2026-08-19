@@ -1,8 +1,8 @@
 # Attribution
 
-Skills adapted from [mattpocock/skills](https://github.com/mattpocock/skills) live in `skills/`. This file is the single record of what came from where — the adapted skills carry no per-file footers, so their loaded context stays clean.
+Adapted skills live in `skills/`; this file is the single record of what came from where — the adapted skills carry no per-file footers, so their loaded context stays clean. Add a `##` section whenever material is adopted from a new source.
 
-Add a row whenever a skill is adopted from, or folds in material from, an external source.
+## [mattpocock/skills](https://github.com/mattpocock/skills)
 
 | Skill | Adapted from | What changed |
 |---|---|---|
