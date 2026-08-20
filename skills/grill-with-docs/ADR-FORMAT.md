@@ -2,8 +2,6 @@
 
 ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
 
-Create the `docs/adr/` directory lazily — only when the first ADR is needed.
-
 ## Template
 
 ```md
@@ -28,7 +26,7 @@ Scan `docs/adr/` for the highest existing number and increment by one.
 
 ## What qualifies
 
-The gate lives in the skill (`SKILL.md`); this elaborates which decisions pass it.
+The gate lives in `SKILL.md`. This file elaborates which decisions pass it.
 
 - **Architectural shape.** "We're using a monorepo." "The write model is event-sourced, the read model is projected into Postgres."
 - **Integration patterns between contexts.** "Ordering and Billing communicate via domain events, not synchronous HTTP."

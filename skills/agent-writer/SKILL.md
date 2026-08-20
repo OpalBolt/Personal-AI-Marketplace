@@ -9,7 +9,7 @@ Write a tight `AGENTS.md` at the repo root. Not persona agents. Not `.github/age
 
 ## Governing Principle
 
-Include only what an agent cannot infer from the repo or its training. Everything else is noise that drifts. Context files packed with inferable content perform *worse* at higher token cost (an ETH Zurich study on context-file effectiveness) — so show your work, ask for confirmation, never generate-and-commit blindly.
+Include only what an agent cannot infer from the repo or its training. Everything else is noise that drifts. Context files packed with inferable content perform *worse* at higher token cost (an ETH Zurich study on context-file effectiveness).
 
 ## Workflow
 
@@ -23,7 +23,7 @@ Include only what an agent cannot infer from the repo or its training. Everythin
 
 ## Introspection Checklist
 
-Language-agnostic signals. You already know Go has `go.mod` and Python has `pyproject.toml` — don't re-document what's inferable. Look for:
+Language-agnostic signals. Look for:
 
 - canonical build/test/lint/dev commands — what the project *actually* uses, not the default
 - non-standard tooling choices (pixi over pip, buf over protoc, justfile over Makefile) — highest signal
