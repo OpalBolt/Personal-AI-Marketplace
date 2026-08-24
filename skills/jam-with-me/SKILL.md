@@ -44,4 +44,4 @@ What to do with this now. Point toward the right skill or action.
 
 ## After the Bundle
 
-Suggest where to take it next. The chain: entry (`grill-with-docs` here, or `wayfinder` for a foggy multi-session effort) → `to-spec` → `to-tickets`. Off the chain: `issue` to track it, `markdown-writer` to write it up, or just start building.
+Suggest where to take it next. The chain: `grill-with-docs` (sharpen it, capture the domain) → `to-spec` → `to-tickets`. Off the chain: `issue` to track it, `markdown-writer` to write it up, or just start building.
