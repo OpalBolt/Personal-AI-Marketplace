@@ -4,17 +4,13 @@ description: Turn the current conversation into a spec and publish it to `.scrat
 disable-model-invocation: true
 ---
 
-Do NOT interview the user — synthesize what you already know. Most often the conversation is a `grill-with-docs` session; a `wayfinder` map collapses into a spec here too, its decisions becoming the buildable plan.
+Do NOT interview the user — synthesize what you already know. Most often the conversation is a `grill-with-docs` session; a persisted map (`.scratch/<effort>/map.md`) collapses into a spec here too, its decisions becoming the buildable plan.
 
 ## Process
 
 1. Explore the repo, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
 
-2. Sketch the seams at which you'll test the feature. Prefer existing seams to new ones, and use the highest seam possible. The ideal number of seams is one.
-
-Check with the user that these seams match their expectations.
-
-3. Write the spec using the template below, then publish it to `.scratch/<feature>/spec.md` (local tracker convention), ready for `to-tickets`.
+2. Write the spec using the template below, then publish it to `.scratch/<feature>/spec.md` (or wherever the repo's AGENTS.md names as the artifact home), ready for `to-tickets`.
 
 <spec-template>
 
@@ -52,13 +48,9 @@ Do NOT include file paths or code snippets. They go stale fast.
 
 Exception: if a prototype snippet encodes a decision more precisely than prose (state machine, reducer, schema, type shape), inline it in the relevant decision, note that it came from a prototype, and trim to the decision-rich parts.
 
-## Testing Decisions
+## Check
 
-Include:
-
-- What makes a good test (external behavior, not implementation details)
-- Which modules will be tested
-- Prior art (similar tests in the codebase)
+The one small test or manual verification that proves the thing works, if any. For most small scripts this is a line or two — name the command, the expected output. A spec that needs no check says so.
 
 ## Out of Scope
 
