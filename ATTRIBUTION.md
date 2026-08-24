@@ -15,3 +15,4 @@ Adapted skills live in `skills/`; this file is the single record of what came fr
 | writing-for-agents | writing-for-agents | adopted verbatim; replaces skill-creator as the skill-authoring standard |
 | grill-with-docs | grill-with-docs + domain-modeling | merged into one skill per map ruling; grilling stays the pure primitive beneath; ADR gate deduped — criteria in SKILL.md, elaboration in ADR-FORMAT.md |
 | to-spec | to-spec | tracker machinery stripped (setup-matt-pocock-skills dep, ready-for-agent label); publishes to `.scratch/<feature>/spec.md`; upstream chain noted (grill-with-docs sessions, wayfinder maps) |
+| to-tickets | to-tickets + to-issues | to-issues renamed; absorbs to-tickets' local-file publishing + per-ticket template, context-window slice sizing, prefactor look; HITL/AFK typing and KISS-first ticket rule added; expand–contract doctrine dropped (no wide refactors in this portfolio) |
