@@ -8,6 +8,9 @@ Personal AI Marketplace ships opencode skills and a generic `worker` agent. `lin
 - Run `skills/orchestrator/init.sh` to initialize the orchestrator plan dir. The script writes `AI_PLAN_DIR` to `./.env`.
 - Run `nix develop` to start the dev shell.
 
+## Artifacts
+- Specs/tickets/maps: `.scratch/` (local markdown, untracked). Real trackers stay available per project when warranted.
+
 ## Boundaries
 ### ✅ Always
 - Write Conventional Commits (`feat(scope):`, `fix(scope):`, `refactor:`)
@@ -24,4 +27,4 @@ Personal AI Marketplace ships opencode skills and a generic `worker` agent. `lin
 - Commit plan files. They live outside the repo by design, under `AI_PLAN_DIR`.
 
 ## Code style
-Self-documenting prose and shell. Shell scripts use `set -euo pipefail`. Add a comment only when it explains a non-obvious why, a workaround, or a hidden risk. Do not restate what the code does.
+Self-documenting prose and shell, KISS and human readable above all. Shell scripts use `set -euo pipefail`. Add a comment only when it explains a non-obvious why, a workaround, or a hidden risk. Do not restate what the code does.
