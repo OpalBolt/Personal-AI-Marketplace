@@ -1,11 +1,10 @@
 # Personal AI Marketplace
 
-Skills for AI coding tools, plus one worker agent. `./link.sh` installs everything into opencode, pi, Claude Code, and GitHub Copilot. There is no build step. The repo holds markdown skills and shell scripts.
+Skills for AI coding tools, plus one worker agent. `./link.sh` installs everything into opencode, pi, Claude Code, and GitHub Copilot. Markdown skills and shell scripts, no build step.
 
 ## Install
 
 ```bash
-nix develop   # optional: dev shell with sqlite and gh
 ./link.sh     # install skills and agents into every tool
 ```
 
@@ -88,6 +87,5 @@ When a session dies mid-move and no artifact covers the work yet, `/handoff` com
 skills/            the skills — edit here
 opencode/          ORCHESTRATION.md and the worker agent
 link.sh            installer
-flake.nix          dev shell
 ATTRIBUTION.md     upstream lineage
 ```

@@ -6,7 +6,6 @@ Markdown skills and shell scripts, no build step. `link.sh` stages `skills/` and
 ## Commands
 - `./link.sh` — install skills and agents into all tools
 - `skills/orchestrator/init.sh` — set up the orchestrator plan dir; writes `AI_PLAN_DIR` to `./.env`
-- `nix develop` — dev shell (sqlite, gh)
 
 ## Artifacts
 - Artifact home: `.scratch/` — specs, tickets, maps. Local markdown, untracked.
