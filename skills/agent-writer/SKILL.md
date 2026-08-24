@@ -44,6 +44,7 @@ Every question shows introspected work and asks for confirmation or correction �
    - ⚠️ **Ask first:** database schema changes; adding new dependencies
    - 🚫 **Never:** commit secrets or `.env`; force push to main; modify generated/vendored files
 4. **Oddities** — "Anything about this project that looks wrong to an outsider but is intentional?" If yes → `jam-with-me`.
+5. **Artifacts** — "Specs, tickets, and planning maps default to `.scratch/` (local markdown, untracked). Keep that, or does this repo use a real tracker (GitHub Issues, Jira, …)?" Record the answer in the template's Artifacts section — agents cannot infer where a repo's planning artifacts live.
 
 ## Output Template
 
@@ -59,6 +60,9 @@ Every question shows introspected work and asks for confirmation or correction �
 - Lint: `[full command with flags]`
 - Dev: `[full command with flags]`
 
+## Artifacts
+- Specs/tickets/maps: `.scratch/` (local markdown, untracked)
+
 ## Boundaries
 ### ✅ Always
 - …
@@ -72,7 +76,7 @@ Every question shows introspected work and asks for confirmation or correction �
 - …
 
 ## Code style
-Self-documenting code. Linter is the source of truth (gofmt/golangci-lint, ruff/black, shellcheck). No comments unless critically necessary — to explain a non-obvious why, a workaround, or a hidden risk. Not for restating what the code does.
+Self-documenting code, KISS and human readable above all. Linter is the source of truth (gofmt/golangci-lint, ruff/black, shellcheck). No comments unless critically necessary — to explain a non-obvious why, a workaround, or a hidden risk. Not for restating what the code does.
 ```
 
 ## Cut List
