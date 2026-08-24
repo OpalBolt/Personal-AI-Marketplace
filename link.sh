@@ -1,14 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Link every skill in ./skills into each tool's global skills directory.
-# Link every agent in ./<tool>/agents into that tool's global agents directory.
+# Copy every skill in ./skills and agent in ./<tool>/agents into the
+# central stage at ~/.config/agents first, then symlink from the stage
+# into each tool's global config dir. Sandboxed tools only need read
+# access to the stage, never to this repo. The stage is rebuilt from
+# the repo on every run.
 # Removes stale links to skills/agents that no longer exist here.
 # Skips tools that aren't installed; skips a tool's agents if it has no
 # ./<tool>/agents source folder. Creates the dest dirs if missing.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC="$SCRIPT_DIR/skills"
+STAGE_ROOT="$HOME/.config/agents"
+
+# Rebuild one stage dir from its repo source. Fresh copy every run;
+# existing tool links keep resolving since they target the same path.
+stage_contents() {
+  local src="$1" dest="$2"
+  rm -rf "$dest"
+  mkdir -p "$(dirname "$dest")"
+  cp -a "$src" "$dest"
+  echo "staged $src -> $dest"
+}
+
+stage_contents "$SRC" "$STAGE_ROOT/skills"
 
 # Ensure the shared plans dir exists before any sandboxed AI run needs it.
 # The sandbox grants ~/.local/share/ai-plans but not its parent, so the
@@ -60,9 +76,10 @@ for entry in "${tools[@]}"; do
 
   command -v "$bin" >/dev/null 2>&1 || { echo "[$name] not installed, skipping"; continue; }
 
-  link_contents "$SRC" "$dest" "$name"
+  link_contents "$STAGE_ROOT/skills" "$dest" "$name"
 
   agents_src="$SCRIPT_DIR/$name/agents"
   [ -d "$agents_src" ] || continue
-  link_contents "$agents_src" "$(dirname "$dest")/agents" "$name"
+  stage_contents "$agents_src" "$STAGE_ROOT/$name-agents"
+  link_contents "$STAGE_ROOT/$name-agents" "$(dirname "$dest")/agents" "$name"
 done

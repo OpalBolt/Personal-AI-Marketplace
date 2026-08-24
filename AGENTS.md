@@ -20,7 +20,7 @@ Personal AI Marketplace ships opencode skills and a generic `worker` agent. `lin
 
 ### 🚫 Never
 - Commit `.env`. `init.sh` writes `AI_PLAN_DIR` to it.
-- Edit skills in the linked, global location. Edit the source in this repo.
+- Edit skills in the linked, global location, or in the `~/.config/agents` stage — `link.sh` rebuilds the stage from the repo on every run. Edit the source in this repo.
 - Commit plan files. They live outside the repo by design, under `AI_PLAN_DIR`.
 
 ## Code style
