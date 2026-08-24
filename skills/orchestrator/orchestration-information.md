@@ -6,7 +6,7 @@ Run a sliced plan to completion, unattended. One slice at a time.
 
 The orchestrator takes a plan that is already sliced into files and runs it end
 to end. It does not plan or slice. Pair it with `jam-with-me`, which writes the
-overarching plan, and `to-issues`, which slices it.
+overarching plan, and `to-tickets`, which slices it.
 
 For each slice, the orchestrator:
 
@@ -21,7 +21,7 @@ to ask a question mid-run.
 ## Workflow
 
 1. Run `jam-with-me`. It writes `plan.md` to the plan directory.
-2. Run `to-issues`. It writes one `slice-NN-slug.md` file per slice.
+2. Run `to-tickets`. It writes one `slice-NN-slug.md` file per slice.
 3. Invoke the orchestrator. It runs every slice to completion and writes a
    summary.
 
@@ -46,7 +46,7 @@ skills/orchestrator/init.sh
 ```
 
 Skills read `AI_PLAN_DIR` from `.env` instead of re-deriving the path, so
-`jam-with-me`, `to-issues`, and the orchestrator all agree on one location.
+`jam-with-me`, `to-tickets`, and the orchestrator all agree on one location.
 
 ## Models
 

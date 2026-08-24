@@ -1,6 +1,6 @@
 ---
 name: orchestrator
-description: Run a pre-sliced plan to completion, unattended. Hand it a sliced plan directory (produced by jam-with-me and to-issues); it refines each slice into a worker spec, dispatches a leaf worker subagent with the matched model, validates, commits per slice, and retries or skips on failure. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
+description: Run a pre-sliced plan to completion, unattended. Hand it a sliced plan directory (produced by jam-with-me and to-tickets); it refines each slice into a worker spec, dispatches a leaf worker subagent with the matched model, validates, commits per slice, and retries or skips on failure. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
 ---
 
 # Orchestrator
