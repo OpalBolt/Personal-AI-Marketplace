@@ -27,7 +27,9 @@ already sliced (one file per slice) in a topic directory. You consume it.
 - Resolve the run model. The invocation `model=<id>` wins. Without one, list
   the models your tool reports as available and ask the user to pick — before
   the run starts, never mid-run. If the tool cannot enumerate models, ask for
-  a name. Every sub-agent in the run uses this one model.
+  a name. Every sub-agent in the run uses this one model. Record it once in
+  its full `provider/id` form and reuse that value throughout — do not
+  re-derive it mid-run.
 - Discover slices. Glob `[0-9][0-9]-*.md` recursively, sort by the `NN`
   prefix. That is your run order, constrained by `Blocked by`. Read `plan.md`
   when present; ignore every other file.
@@ -61,10 +63,14 @@ For each slice, in order:
    the partial state is acceptable. `blocked`: re-refine the spec using what
    the failure revealed, retry once; if it blocks again, decide skip vs. stop
    (see Blocked).
-5. **Review.** Write the reviewer spec: the slice's acceptance criteria, the
-   diff and commit list from the recorded HEAD to now, and the trust command
-   (the full test suite, or whatever builds trust in this repo — may be
-   none). Spawn the `reviewer` subagent with the run model.
+5. **Review.** Run the trust command (the full test suite, or whatever
+   builds trust in this repo — may be none) and `git diff <fixed-point>..HEAD`
+   yourself, and paste both outputs into the reviewer spec alongside the
+   slice's acceptance criteria. The reviewer agent is read-only — no shell,
+   and its `watchdog_diff` cannot see committed ranges — so evidence it must
+   fetch through you turns one review into a three-step round-trip. With the
+   evidence pasted, it returns a verdict in one pass. Spawn the `reviewer`
+   subagent with the run model.
 6. **Verdict.** `approve`: next slice. `issues`: write a fix spec from the
    findings, dispatch the worker again, re-review **once**. Still issues: the
    slice is blocked — the Blocked rules decide. Commit fixes (`fix:`) only

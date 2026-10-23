@@ -14,7 +14,8 @@ For each slice, the orchestrator:
 1. Prints a status block: last slice, run totals, next slice.
 2. Refines the slice into a worker spec and spawns a leaf worker.
 3. Commits the implementation.
-4. Spawns a leaf reviewer with the diff; the reviewer also confirms the tests.
+4. Runs the trust command, then spawns a leaf reviewer with the diff and the
+   test output pasted into its spec; the reviewer reads evidence, never runs.
 5. Routes findings back to the worker as a fix spec, re-reviews once, commits
    the fixes.
 6. Moves to the next slice — or skips or stops when a slice stays blocked.
