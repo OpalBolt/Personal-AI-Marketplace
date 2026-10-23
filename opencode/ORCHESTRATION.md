@@ -14,20 +14,24 @@ The orchestrator owns the risk. It runs the final validation, does the git
 operations, and rolls back when needed.
 
 ```
-[task] -> orchestrator -> [slice spec] -> worker -> [report] -> orchestrator
-                                      orchestrator: validate | commit | rollback
+[task] -> orchestrator -> [slice spec] -> worker -> [report]
+                 orchestrator: commit impl
+                 orchestrator -> [review spec] -> reviewer -> [verdict]
+                 approve -> next slice | issues -> [fix spec] -> worker (once)
+                 orchestrator: end-of-run validation | rollback
 ```
 
 ## Roles
 
-| Responsibility | Orchestrator | Leaf worker |
-|----------------|--------------|-------------|
-| Split and refine slices | yes | no |
-| Implement one slice | no | yes |
-| Git (status, diff, commit, rollback) | yes | no |
-| Final and overarching validation | yes | no |
-| Recurse into subagents | yes | no (`task: deny`) |
-| Risky moves | yes | no |
+| Responsibility | Orchestrator | Leaf worker | Leaf reviewer |
+|----------------|--------------|-------------|----------------|
+| Split and refine slices | yes | no | no |
+| Implement one slice | no | yes | no |
+| Review a slice's diff | no | no | yes |
+| Run the full test suite | end of run | no | yes, per slice |
+| Git (status, diff, commit, rollback) | yes | no | no — the diff arrives in the spec |
+| Recurse into subagents | yes | no (`task: deny`) | no (`task: deny`) |
+| Risky moves | yes | no | no |
 
 ## Slice contract
 
@@ -58,17 +62,21 @@ assumption, writes it down, and proceeds. If it cannot, it reports `blocked`.
 
 ## Validation contract
 
-Validation runs in two tiers.
+Validation runs in three tiers.
 
 1. Worker self-check (cheap, local). Lint the touched files. Typecheck them
    only when the change crosses types. No full test suite. No integration
    runs. The worker reports the exact commands and the result.
-2. Orchestrator final validation. Whatever builds trust in the whole: the
-   full test suite, integration checks, review across slices. The
-   orchestrator sets the bar per task.
+2. Reviewer, per slice. Reviews the committed diff against the slice's
+   acceptance criteria and the code-review smell baseline, runs the trust
+   command (usually the full test suite; sometimes nothing), and returns a
+   verdict.
+3. Orchestrator, end of run. One full-suite pass across all slices —
+   per-slice green does not prove cross-slice green.
 
-The worker self-check turns the orchestrator job into confirmation, not
-discovery, for the files in the lane.
+The worker self-check turns the reviewer job into confirmation, not
+discovery, for the files in the lane. The reviewer verdict turns the
+orchestrator job into triage, not judgement.
 
 ## Report format
 
@@ -90,10 +98,50 @@ done | partial | blocked
 results without parsing prose. There is no `Files changed` section. The
 orchestrator reads the changed files from `git status`.
 
+The reviewer returns:
+
+```
+## Verdict
+approve | issues
+
+## Issues
+- <file>:<line> — <what> · <suggested fix> · must-fix | nit
+
+## Tests
+<command> — <result>
+```
+
+`Verdict` is one keyword from a closed set, same reason as `Status`. The
+reviewer never edits files; findings become a fix spec for the worker.
+
+## Review cycle
+
+Each slice closes with a review, before the next slice starts:
+
+1. The worker reports `done` or `partial`; the orchestrator commits the
+   implementation (`feat:` or similar).
+2. The orchestrator writes the review spec — acceptance criteria, the diff
+   and commit list since the commit before the slice, the trust command —
+   and dispatches the reviewer with the run model.
+3. `approve`: next slice. `issues`: the findings become a fix spec, the
+   worker runs it, the reviewer re-reviews once.
+4. Still `issues`: the slice is blocked (see Blocked and rollback).
+
+Fixes commit as `fix:` only when something changed. One fix round per slice —
+an unbounded fix loop is the overnight-run killer.
+
+## Models
+
+One run model per run, shared by every sub-agent — worker and reviewer
+alike. It is named in the invocation or chosen from the tool's available
+models before the run starts, never mid-run. There is no static model map.
+
 ## Blocked and rollback
 
 - A blocked worker stops. It leaves the tree as it stands and reports
   `blocked`. It does not revert. It does not half-finish.
+- A slice still reporting review issues after one fix round is blocked the
+  same way.
 - The orchestrator decides what to do next: roll back (restore the worker
   files), send a better slice, or escalate.
 - The worker avoids a broken tree. If its partial work would break the build
@@ -108,7 +156,5 @@ orchestrator reads the changed files from `git status`.
 
 ## Open (pinned for the orchestrator design)
 
-- The orchestrator prompt, model, and permissions.
-- How the orchestrator splits a task into slices and tracks them.
-- The default bar for orchestrator final validation.
+- The orchestrator prompt and permissions, as an opencode agent file.
 - Whether workers run in parallel, and the coordination that requires.

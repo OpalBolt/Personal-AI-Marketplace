@@ -1,80 +1,94 @@
 ---
 name: orchestrator
-description: Run a pre-sliced plan to completion, unattended. Hand it a sliced plan directory (produced by jam-with-me and to-tickets); it refines each slice into a worker spec, dispatches a leaf worker subagent with the matched model, validates, commits per slice, and retries or skips on failure. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
+description: Run a pre-sliced plan to completion, unattended. Hand it a .scratch topic directory (produced by jam-with-me and to-tickets); it refines each slice into a worker spec, dispatches a leaf worker with the run model, commits, then a leaf reviewer verifies the diff and confirms the tests. Findings loop through the worker once, then the slice retries or skips. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
 ---
 
 # Orchestrator
 
-Run a pre-sliced plan to completion, unattended. One worker at a time.
+Run a pre-sliced plan to completion, unattended. One slice at a time, each
+slice closed by a review.
 
 This skill is the execution loop. It does not plan or slice. A plan arrives
-already sliced (one file per slice) in a plan directory. You consume it.
+already sliced (one file per slice) in a topic directory. You consume it.
 
 ## Inputs
 
-- A plan directory with an overarching `plan.md` and numbered slice files
-  `slice-NN-slug.md`.
+- Invocation: `orchestrate <topic-dir> [model=<id>]`.
+- A topic directory with an optional overarching `plan.md` and numbered slice
+  files matching `[0-9][0-9]-*.md` anywhere under it — flat `slice-NN-*.md`
+  and nested `issues/NN-*.md` both work.
 - Each slice names its files in scope, its goal, its context, its acceptance
   criteria, and a `Blocked by` field (the slices it depends on).
 
 ## Before you run
 
-- Resolve the plan directory: read `AI_PLAN_DIR` from `.env` in the repo root
-  (written there by `init.sh`). If `.env` has no `AI_PLAN_DIR`, run `init.sh`
-  first.
-- Discover slices: glob `slice-*.md` in the plan dir, sort by the `NN` prefix.
-  That is your run order.
-- Find the worker model in `models.json` (sibling), keyed by runtime then model
-  ID, with a `default` fallback:
+- Resolve the topic dir. The invocation path wins. Without one, use the sole
+  directory under `.scratch/`; ask when there are several or none.
+- Resolve the run model. The invocation `model=<id>` wins. Without one, list
+  the models your tool reports as available and ask the user to pick — before
+  the run starts, never mid-run. If the tool cannot enumerate models, ask for
+  a name. Every sub-agent in the run uses this one model.
+- Discover slices. Glob `[0-9][0-9]-*.md` recursively, sort by the `NN`
+  prefix. That is your run order, constrained by `Blocked by`. Read `plan.md`
+  when present; ignore every other file.
 
-  ```sh
-  jq -r --arg t "<runtime>" --arg m "<your-model-id>" \
-    '.[$t][$m].worker // .default.worker' models.json
-  ```
+## Status print
 
-  Substitute `<runtime>` (e.g. `opencode`) and `<your-model-id>`. A `default` or
-  `inherited` result means the worker uses your model. If you cannot determine
-  your own runtime or model ID, ask the user.
-  
+Before each slice, print exactly this block. First print of a run: `— run
+starting` in place of the last slice's details.
+
+```
+✅ last:  <slice> — <status> · <commit> · review: <n> issues · <n> fixed · <verdict>
+📊 run:   <done>/<total> done · <n> skipped · <n> blocked
+➡️ next:  <slice> — "<title>" · model: <run model>
+```
+
+Fixed shape, so a scrolling log reads at a glance.
 
 ## The loop (sequential, one slice at a time)
 
 For each slice, in order:
 
-1. **Refine.** Turn the slice into a self-contained worker spec: the files in
+1. **Status.** Print the block above.
+2. **Refine.** Turn the slice into a self-contained worker spec: the files in
    scope, the goal, the context the worker needs, and the acceptance criteria
-   it can self-check. Write it to a scratch file.
-2. **Dispatch.** Spawn a worker subagent. Tell it to read its spec from the
-   scratch file. Pass the worker model from the lookup.
-3. **Receive.** The worker returns a status: `done`, `partial`, or `blocked`.
-4. **Triage.**
-   - `done` or `partial`: validate (see Validation), then commit (see Git).
-     Move to the next slice.
-   - `blocked`: re-refine the spec using what the failure revealed, then retry
-     the slice once. If it blocks again, decide skip vs. stop (see Blocked).
-5. After the last slice, write a final summary: slices done, skipped, blocked,
-   and why.
+   it can self-check. Write it to a scratch file. Record the current HEAD —
+   it is the review's fixed point.
+3. **Dispatch worker.** Spawn the `worker` subagent with the run model. Tell
+   it to read its spec from the scratch file.
+4. **Triage.** `done` or `partial`: commit the implementation (see Git), then
+   review — `partial` gets reviewed like `done`; the reviewer decides whether
+   the partial state is acceptable. `blocked`: re-refine the spec using what
+   the failure revealed, retry once; if it blocks again, decide skip vs. stop
+   (see Blocked).
+5. **Review.** Write the reviewer spec: the slice's acceptance criteria, the
+   diff and commit list from the recorded HEAD to now, and the trust command
+   (the full test suite, or whatever builds trust in this repo — may be
+   none). Spawn the `reviewer` subagent with the run model.
+6. **Verdict.** `approve`: next slice. `issues`: write a fix spec from the
+   findings, dispatch the worker again, re-review **once**. Still issues: the
+   slice is blocked — the Blocked rules decide. Commit fixes (`fix:`) only
+   when something changed.
+7. **Close the run.** After the last slice, run the trust command once more
+   across everything (per-slice green does not prove cross-slice green), then
+   write the final summary: per slice — status, commit, review verdict,
+   issues found and fixed; plus run-wide totals.
 
 Never pause mid-run for human input. The plan was reviewed before you started.
 That is the whole point: launch it, then leave.
 
-## Validation
-
-Two tiers. The worker self-checks the files in its lane (lint; typecheck only
-if the change crosses types) and reports the commands and the result. You own
-the final check across the whole: the full test suite, or whatever builds
-trust. You set the bar per run.
-
 ## Git
 
-You own all version control. Commit after each successful slice, before the
-next slice starts. This keeps finished work safe if the run dies. Rollback is
-granular: revert one slice's commit. Workers never run git.
+You own all version control. Commit the implementation after each successful
+slice, before review starts — finished work survives a crash, and the reviewer
+gets a clean fixed point. Commit fixes after a re-approve. Rollback is
+granular: revert one slice's commits. Sub-agents never run git.
 
 ## Blocked
 
 A worker that cannot finish stops and reports `blocked`. It does not revert.
-It does not half-finish. After the single retry, decide:
+It does not half-finish. A slice whose review still reports issues after one
+fix round is blocked the same way. In both cases:
 
 - **Skip** when no remaining slice lists this one in its `Blocked by`. Roll
   back its files, mark it skipped, continue.
@@ -89,6 +103,11 @@ out-of-lane changes.
 
 ## Conventions
 
-- Plan directory: `AI_PLAN_DIR` from the repo's `.env` (set by `init.sh`).
+- Topic dir: `.scratch/<topic>/` in the repo running the plan — gitignored.
+  Any explicit path works too.
 - Worker scratch spec: `/tmp/orchestrator/<slice-slug>.md`.
-- The worker subagent is `worker`.
+- Reviewer scratch spec: `/tmp/orchestrator/<slice-slug>.review.md`.
+- Sub-agents: `worker` implements, `reviewer` verifies. Both use the run model.
+- Reviewer method: the code-review skill's two axes — spec (the slice's
+  acceptance criteria) and standards (its smell baseline) — in one pass by one
+  leaf agent, returning a verdict, not a report.

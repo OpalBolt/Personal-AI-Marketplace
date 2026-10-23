@@ -5,10 +5,9 @@ Markdown skills and shell scripts, no build step. `link.sh` stages `skills/` and
 
 ## Commands
 - `./link.sh` — install skills and agents into all tools
-- `skills/orchestrator/init.sh` — set up the orchestrator plan dir; writes `AI_PLAN_DIR` to `./.env`
 
 ## Artifacts
-- Artifact home: `.scratch/` — specs, tickets, maps. Local markdown, untracked.
+- Artifact home: `.scratch/` — specs, tickets, maps, orchestrator topic dirs. Local markdown, untracked.
 
 ## Boundaries
 ### ✅ Always
@@ -17,11 +16,10 @@ Markdown skills and shell scripts, no build step. `link.sh` stages `skills/` and
 
 ### ⚠️ Ask first
 - Add a new skill or agent
-- Edit model IDs in `skills/orchestrator/models.json`
 - Change `.mcp.json`
 
 ### 🚫 Never
-- Commit `.env` or plan files — `init.sh` writes `AI_PLAN_DIR` to `.env`; plans live outside the repo by design
+- Commit `.env` or anything under `.scratch/` — plans and session artifacts stay untracked by design
 - Edit skills in the linked global copies or the `~/.config/agents` stage — the stage is rebuilt from this repo on every run; edit the source here
 
 ## Code style

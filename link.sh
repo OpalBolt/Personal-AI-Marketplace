@@ -26,12 +26,6 @@ stage_contents() {
 
 stage_contents "$SRC" "$STAGE_ROOT/skills"
 
-# Ensure the shared plans dir exists before any sandboxed AI run needs it.
-# The sandbox grants ~/.local/share/ai-plans but not its parent, so the
-# first-time bootstrap must happen here (human-run, unsandboxed).
-PLANS_ROOT="${XDG_DATA_HOME:-$HOME/.local/share}/ai-plans"
-mkdir -p "$PLANS_ROOT"
-
 # name | executable | global skills dir
 tools=(
   "opencode|opencode|$HOME/.config/opencode/skills"
