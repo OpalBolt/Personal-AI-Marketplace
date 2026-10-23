@@ -14,8 +14,9 @@ For each slice, the orchestrator:
 1. Prints a status block: last slice, run totals, next slice.
 2. Refines the slice into a worker spec and spawns a leaf worker.
 3. Commits the implementation.
-4. Runs the trust command, then spawns a leaf reviewer with the diff and the
-   test output pasted into its spec; the reviewer reads evidence, never runs.
+4. Runs the trust command and diff into a scratch evidence file, then
+   spawns a leaf reviewer whose spec names that file as a required read;
+   the reviewer reads evidence, never runs.
 5. Routes findings back to the worker as a fix spec, re-reviews once, commits
    the fixes.
 6. Moves to the next slice — or skips or stops when a slice stays blocked.
@@ -40,6 +41,7 @@ never pollute the history. An explicit path anywhere else also works.
 | `.scratch/<topic>/` | `plan.md` and the `NN-*.md` slice files |
 | `/tmp/orchestrator/<slice-slug>.md` | the worker spec for the current slice |
 | `/tmp/orchestrator/<slice-slug>.review.md` | the reviewer spec |
+| `/tmp/orchestrator/<slice-slug>.evidence.md` | diff and trust output for the reviewer |
 
 ## Models
 

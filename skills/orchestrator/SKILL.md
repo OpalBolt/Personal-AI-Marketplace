@@ -65,20 +65,22 @@ For each slice, in order:
    (see Blocked).
 5. **Review.** Run the trust command (the full test suite, or whatever
    builds trust in this repo — may be none) and `git diff <fixed-point>..HEAD`
-   yourself, and paste both outputs into the reviewer spec alongside the
-   slice's acceptance criteria. The reviewer agent is read-only — no shell,
-   and its `watchdog_diff` cannot see committed ranges — so evidence it must
-   fetch through you turns one review into a three-step round-trip. With the
-   evidence pasted, it returns a verdict in one pass. Spawn the `reviewer`
-   subagent with the run model.
+   yourself, redirected into `/tmp/orchestrator/<slice-slug>.evidence.md` so
+   the bytes never enter your context — keep only the exit code. The
+   reviewer agent is read-only — no shell, and its `watchdog_diff` cannot
+   see committed ranges — so name the evidence file in the reviewer spec as
+   a required read, or it will fetch everything through you in a three-step
+   round-trip. Spawn the `reviewer` subagent with the run model.
 6. **Verdict.** `approve`: next slice. `issues`: write a fix spec from the
    findings, dispatch the worker again, re-review **once**. Still issues: the
    slice is blocked — the Blocked rules decide. Commit fixes (`fix:`) only
    when something changed.
 7. **Close the run.** After the last slice, run the trust command once more
-   across everything (per-slice green does not prove cross-slice green), then
-   write the final summary: per slice — status, commit, review verdict,
-   issues found and fixed; plus run-wide totals.
+   across everything (per-slice green does not prove cross-slice green) —
+   redirected to `/tmp/orchestrator/final-trust.log`; the summary carries
+   the exit code, and on failure a tail of that log — then write the final
+   summary: per slice — status, commit, review verdict, issues found and
+   fixed; plus run-wide totals.
 
 Never pause mid-run for human input. The plan was reviewed before you started.
 That is the whole point: launch it, then leave.
@@ -113,6 +115,9 @@ out-of-lane changes.
   Any explicit path works too.
 - Worker scratch spec: `/tmp/orchestrator/<slice-slug>.md`.
 - Reviewer scratch spec: `/tmp/orchestrator/<slice-slug>.review.md`.
+- Review evidence: `/tmp/orchestrator/<slice-slug>.evidence.md`; final run:
+  `/tmp/orchestrator/final-trust.log`. Redirect raw output there — diff-sized
+  bytes never belong in your context.
 - Sub-agents: `worker` implements, `reviewer` verifies. Both use the run model.
 - Reviewer method: the code-review skill's two axes — spec (the slice's
   acceptance criteria) and standards (its smell baseline) — in one pass by one
