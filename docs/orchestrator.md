@@ -58,8 +58,8 @@ anywhere else also works.
 
 Three roles: **work** implements, **review** verdicts, **fallback** is the
 net. At startup the orchestrator asks one question — "Which setup for this
-run?" — offering the presets from the curated `models-*.json` catalogs next
-to the skill. Each preset names all three roles, with ids that may carry a
+run?" — offering the presets from the curated `models.json` catalog in the
+skill's harness dir (`pi/`). Each preset names all three roles, with ids that may carry a
 `:thinking` suffix; edit the catalog to change what you are offered. You
 can always type a plain `provider/id`, which fills all three roles — no
 distinct net. The orchestrator's own model is never used for a role. Roles

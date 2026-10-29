@@ -71,7 +71,8 @@ is no net: one retry on the same model, then the run stops.
 _Avoid_: relief model, backup model
 
 **Catalog**:
-A `models-*.json` file next to the orchestrator skill, one per harness,
-holding named presets — each naming the three model roles, ids optionally
-suffixed `:thinking`. Read at startup to build the model question.
+A `models.json` file in the orchestrator skill's harness dir (`pi/`,
+`claude/`, …), one per harness, holding named presets — each naming the
+three model roles, ids optionally suffixed `:thinking`. Read at startup
+to build the model question.
 _Avoid_: model list, model map

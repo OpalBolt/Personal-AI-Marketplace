@@ -29,9 +29,9 @@ already sliced (one file per slice) in a topic directory. You consume it.
 - Resolve the three model roles — **work** (implements), **fallback** (the
   net), **review** (verdicts) — once, before the run, never mid-run:
   - Ask **one** structured question: "Which setup for this run?" Its
-    options are the presets in the `models-*.json` catalogs next to this
-    skill — each names all three roles, and ids may carry a `:thinking`
-    suffix. Free text welcome: a typed `provider/id` fills all three roles
+    options are the presets in your harness's `models.json` catalog (in the
+    harness dir next to this skill) — each names all three roles, and ids
+    may carry a `:thinking` suffix. Free text welcome: a typed `provider/id` fills all three roles
     — no distinct net; say so. No catalog → the models your tool reports
     → failing that, ask for a name.
   - Never resolve a role to your own model.
@@ -101,10 +101,9 @@ started. That is the whole point: launch it, then leave.
 ## Canary (after every child — workers, fix rounds, reviewers)
 
 Telemetry is numbers only: a usage summary, the child's self-report, a
-`git diff --stat`. Where a machine-readable call log exists, count its facts
-with a one-line shell command — repeats, first-edit call, forbidden
-commands, evidence-not-read — and keep only the number. Transcripts never
-enter your context.
+`git diff --stat`. Count call-log facts — repeats, first-edit call,
+forbidden commands, evidence-not-read — by running the canary script named
+in the harness file, and take its output as the whole picture.
 
 A child **trips** on any of:
 
@@ -157,13 +156,15 @@ close-out reports what is left.
   trust `final-trust.log`. Slugs drop the `NN-` prefix, so scratch never
   collides with slice discovery, and per-topic placement keeps concurrent
   orchestrators on the machine apart.
-- Scripts and catalogs live next to this skill: `mkspec.sh`, `mkreview.sh`,
-  `evidence.sh`, `commit.sh` (each takes `<repo> <topic-dir> …`). The trust
-  command comes from `plan.md` or the repo's own test setup; export it as
-  `TRUST_CMD` when you call the scripts. Run them; do not restate them.
-- `models-*.json` catalogs: one per harness, curated by the user; each
-  preset names the three model roles. Read at startup to build the model
-  question.
+- Scripts live next to this skill: `mkspec.sh`, `mkreview.sh`,
+  `evidence.sh`, `commit.sh` (each takes `<repo> <topic-dir> …`). The
+  harness dir `<harness>/` (e.g. `pi/`) holds its `HARNESS.md`, `models.json`
+  catalog, and harness scripts such as the canary. The trust command comes
+  from `plan.md` or the repo's own test setup; export it as `TRUST_CMD` when
+  you call the scripts. Run them; do not restate them.
+- `<harness>/models.json` catalogs: one per harness, curated by the user;
+  each preset names the three model roles. Read at startup to build the
+  model question.
 - Harness specifics — dispatch-with-model, caps, telemetry source, the
-  question tool: in `HARNESS-<name>.md` files next to this skill. Read only
-  the one for the harness you run in; the rest are not yours.
+  question tool: in `<harness>/HARNESS.md`. Read only the one for the
+  harness you run in; the rest are not yours.
