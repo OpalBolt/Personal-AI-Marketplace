@@ -76,9 +76,9 @@ with zero edits, so the loop has brakes:
   lookups, report blocked rather than loop.
 - **A canary after every child** — workers, fix rounds, reviewers alike.
   Trip signals: zero edits, a cap hit, 10+ identical repeated calls, first
-  edit later than call 40, a forbidden git command, a reviewer approving in
-  fewer than 10 calls or without reading the evidence. On a trip the role
-  switches to the fallback, one-way. With no distinct fallback, one retry on
+  edit later than call 40, a forbidden git command, a reviewer approving
+  without reading the evidence. On a trip the role switches to the
+  fallback, one-way. With no distinct fallback, one retry on
   the same model, then the run stops. If the fallback itself trips, the run
   stops.
 - **Telemetry as numbers only**: usage summaries and shell-counted facts.

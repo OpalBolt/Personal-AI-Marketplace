@@ -72,8 +72,9 @@ For each slice, in order:
    spec with `mkspec.sh` (next to this skill); its notes and Budget sections
    are the point, not garnish. Record the current HEAD — the review's fixed
    point.
-3. **Dispatch worker.** Work model, hard caps on wall clock — and on turns
-   where the harness supports it. The child reads its spec from the file.
+3. **Dispatch worker.** Work model, hard caps on wall clock and — where the
+   harness supports it — on browse-type tool calls. The child reads its
+   spec from the file.
 4. **Canary.** Check the child's telemetry (below) and act on a trip at once.
 5. **Triage.** `done` or `partial`: commit via `commit.sh`, build the
    evidence via `evidence.sh`, then review — `partial` gets reviewed like
@@ -110,7 +111,7 @@ enter your context.
 A child **trips** on any of:
 
 - Tier A, any harness: zero file edits at end while not reporting blocked ·
-  hard cap hit · reviewer approved in fewer than 10 calls.
+  hard cap hit.
 - Tier B, only with a call log: 10+ identical repeated calls · first edit
   later than call 40 · a forbidden command (git) ran · reviewer never read
   the evidence file.
