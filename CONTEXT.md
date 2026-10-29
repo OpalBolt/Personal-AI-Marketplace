@@ -9,14 +9,9 @@ word per concept.
 **Model roles**:
 The three model slots a run resolves once, before it starts: **work**
 (implements slices), **fallback** (the net), **review** (verdicts). One
-startup question picks the run model; the catalog order supplies the
-fallback. Never resolved mid-run.
+startup question picks a preset; the catalog names all three. Never
+resolved mid-run.
 _Avoid_: model map, model mapping
-
-**Run model**:
-The single model that fills work and review — the one answer to the startup
-question. Never the orchestrator's own model.
-_Avoid_: default model, orchestrator's model
 
 **Orchestrator**:
 The primary agent that runs a topic's slices sequentially, unattended. Owns
@@ -77,7 +72,6 @@ _Avoid_: relief model, backup model
 
 **Catalog**:
 A `models-*.json` file next to the orchestrator skill, one per harness,
-listing dispatchable model ids in the user's preference order. Read at
-startup to build the model question; its first entry different from the
-pick becomes the fallback.
+holding named presets — each naming the three model roles, ids optionally
+suffixed `:thinking`. Read at startup to build the model question.
 _Avoid_: model list, model map

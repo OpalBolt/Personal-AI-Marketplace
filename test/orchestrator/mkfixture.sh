@@ -7,9 +7,10 @@
 # The test procedure:
 #   1. cd <target-dir> && pi
 #   2. say: orchestrate .scratch/smoke
-#   3. Happy path: pick the catalog model whose note says "proven".
-#      Trip path: pick the one whose note says "looper" — watch the canary
-#      trip, the one retry, and the run stopping.
+#   3. Happy path: pick the "Proven" preset — expect three slices, a
+#      summary, and the topic dir renamed to smoke-DONE. Trip path: pick
+#      "Looper stress" — the incident looper as work — and watch a real
+#      canary trip switch the role to luna.
 #   4. Expect: per-slice commits, reviews, a summary — and the topic dir
 #      renamed to smoke-DONE when everything closed approved.
 set -euo pipefail

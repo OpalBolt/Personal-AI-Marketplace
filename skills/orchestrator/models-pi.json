@@ -1,9 +1,26 @@
 {
-  "_readme": "Curated by hand — order is preference, first entry is the default offer, and the first entry different from the pick becomes the fallback. Ids must be dispatchable from this harness as provider/id. Read at startup, to build the model question.",
-  "models": [
-    { "id": "github-copilot/gpt-5.6-luna", "note": "proven worker and reviewer (incident run: 21/21 finished, ~$0.65)" },
-    { "id": "github-copilot/claude-opus-5.5", "note": "strong, costly — good fallback or reviewer" },
-    { "id": "github-copilot/gpt-6-luna", "note": "newer luna, unvetted" },
-    { "id": "github-copilot/gemini-3.8-flash", "note": "looper in the incident — only with sharp specs and caps" }
+  "_readme": "Presets curated by hand — the startup question offers them as options; edit freely. Each preset names the three model roles; ids may carry a :thinking suffix (e.g. provider/id:high).",
+  "presets": [
+    {
+      "name": "Default",
+      "work": "zai/glm-5.3-flash",
+      "fallback": "zai/glm-5.3",
+      "review": "zai/glm-5.3",
+      "note": "cheap workhorse; stronger net and review"
+    },
+    {
+      "name": "Proven",
+      "work": "github-copilot/gpt-5.6-luna:high",
+      "fallback": "github-copilot/claude-opus-5.5:high",
+      "review": "github-copilot/gpt-5.6-luna:high",
+      "note": "incident-tested: 21/21 runs finished, reviewers caught real defects"
+    },
+    {
+      "name": "Looper stress",
+      "work": "github-copilot/gemini-3.8-flash:high",
+      "fallback": "github-copilot/gpt-5.6-luna:high",
+      "review": "github-copilot/gpt-5.6-luna:high",
+      "note": "the incident looper as work — watch a real trip switch roles to luna"
+    }
   ]
 }

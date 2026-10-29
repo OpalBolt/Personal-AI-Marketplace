@@ -28,17 +28,15 @@ already sliced (one file per slice) in a topic directory. You consume it.
   are several or none.
 - Resolve the three model roles — **work** (implements), **fallback** (the
   net), **review** (verdicts) — once, before the run, never mid-run:
-  - Ask **one** structured question: "Which model for this run?" Build its
-    options from the `models-*.json` catalogs next to this skill (order is
-    preference; free text welcome). No catalog → the models your tool
-    reports → failing that, ask for a name.
-  - The answer is the run model: it fills work and review. Fallback is the
-    first catalog entry different from it — your second preference, no
-    extra question. No catalog or no different entry → fallback is the run
-    model; say so: no net.
+  - Ask **one** structured question: "Which setup for this run?" Its
+    options are the presets in the `models-*.json` catalogs next to this
+    skill — each names all three roles, and ids may carry a `:thinking`
+    suffix. Free text welcome: a typed `provider/id` fills all three roles
+    — no distinct net; say so. No catalog → the models your tool reports
+    → failing that, ask for a name.
   - Never resolve a role to your own model.
-  - Record all three in full `provider/id` form and reuse them throughout;
-    do not re-derive mid-run.
+  - Record all three in full form and reuse them throughout; do not
+    re-derive mid-run.
 - Print the startup block with the resolved roles. When fallback equals work,
   say so plainly: `fallback: =work (a trip retries once on the same model,
   then stops)`.
@@ -163,8 +161,9 @@ close-out reports what is left.
   `evidence.sh`, `commit.sh` (each takes `<repo> <topic-dir> …`). The trust
   command comes from `plan.md` or the repo's own test setup; export it as
   `TRUST_CMD` when you call the scripts. Run them; do not restate them.
-- `models-*.json` catalogs: one per harness, curated by the user, read at
-  startup to build the model question.
+- `models-*.json` catalogs: one per harness, curated by the user; each
+  preset names the three model roles. Read at startup to build the model
+  question.
 - Harness specifics — dispatch-with-model, caps, telemetry source, the
   question tool: in `HARNESS-<name>.md` files next to this skill. Read only
   the one for the harness you run in; the rest are not yours.
