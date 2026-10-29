@@ -26,7 +26,7 @@ cd "$dest"
 git init -q
 git config user.email fixture@local
 git config user.name fixture
-printf '.scratch/\n' > .gitignore
+printf '.scratch/\n__pycache__/\n' > .gitignore
 echo "# Fixture repo" > README.md
 git add -A && git commit -qm "chore: init fixture"
 
