@@ -6,11 +6,17 @@ word per concept.
 
 ## Language
 
+**Model roles**:
+The three model slots a run resolves once, before it starts: **work**
+(implements slices), **fallback** (the net), **review** (verdicts). One
+startup question picks the run model; the catalog order supplies the
+fallback. Never resolved mid-run.
+_Avoid_: model map, model mapping
+
 **Run model**:
-The single model every sub-agent in a run uses — worker and reviewer alike.
-Named in the invocation, or chosen from the tool's available models before the
-run starts. Never chosen mid-run.
-_Avoid_: worker model, reviewer model, model mapping
+The single model that fills work and review — the one answer to the startup
+question. Never the orchestrator's own model.
+_Avoid_: default model, orchestrator's model
 
 **Orchestrator**:
 The primary agent that runs a topic's slices sequentially, unattended. Owns
@@ -20,7 +26,8 @@ _Avoid_: runner, agent-in-charge
 
 **Topic dir**:
 A directory (under `.scratch/`, gitignored) holding one effort's slice files
-and an optional `plan.md`. The orchestrator's input path.
+and an optional `plan.md`. The orchestrator's input path. A fully approved
+run renames it to `<topic>-DONE`; discovery ignores those.
 _Avoid_: plan dir, AI_PLAN_DIR, plans dir
 
 **Slice**:
@@ -41,3 +48,36 @@ _Avoid_: code-review sub-agent
 The reviewer's closed-set reply: `approve` or `issues` (each with file, what,
 suggested fix, severity `must-fix` or `nit`).
 _Avoid_: review report, findings list
+
+**Canary**:
+The check the orchestrator runs after every child dispatch, comparing the
+child's telemetry against the trip signals.
+_Avoid_: health check, gate
+
+**Trip**:
+A canary signal firing on a child.
+_Avoid_: failure, alert
+
+**Budget**:
+The soft call limits written into a worker spec — first edit within 20
+calls, stop and report blocked at 40. The worker reads them; nothing
+enforces them.
+_Avoid_: limit, cap (that is Hard caps)
+
+**Hard caps**:
+The wall-clock and turn limits the orchestrator sets on every child
+dispatch. The harness enforces them; hitting one ends the child as blocked.
+_Avoid_: timeout, budget
+
+**Fallback**:
+The run's safety net. A tripped role switches to it, one-way, for the rest
+of the run — whichever role tripped. When all roles share one model there
+is no net: one retry on the same model, then the run stops.
+_Avoid_: relief model, backup model
+
+**Catalog**:
+A `models-*.json` file next to the orchestrator skill, one per harness,
+listing dispatchable model ids in the user's preference order. Read at
+startup to build the model question; its first entry different from the
+pick becomes the fallback.
+_Avoid_: model list, model map

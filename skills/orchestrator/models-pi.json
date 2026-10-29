@@ -1,0 +1,9 @@
+{
+  "_readme": "Curated by hand — order is preference, first entry is the default offer, and the first entry different from the pick becomes the fallback. Ids must be dispatchable from this harness as provider/id. Read at startup, to build the model question.",
+  "models": [
+    { "id": "github-copilot/gpt-5.6-luna", "note": "proven worker and reviewer (incident run: 21/21 finished, ~$0.65)" },
+    { "id": "github-copilot/claude-opus-5.5", "note": "strong, costly — good fallback or reviewer" },
+    { "id": "github-copilot/gpt-6-luna", "note": "newer luna, unvetted" },
+    { "id": "github-copilot/gemini-3.8-flash", "note": "looper in the incident — only with sharp specs and caps" }
+  ]
+}
