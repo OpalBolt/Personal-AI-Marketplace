@@ -10,6 +10,24 @@ import os
 import re
 import sys
 
+# shortcut: not caught: `env X=1 git`, `xargs git`, `sh -c "git ..."`; a heredoc
+# line starting with "git " is a false hit. Upgrade only if that bites.
+GIT_CMD = re.compile(r"(?:^|[;&|`(\n]|\$\()\s*git\s")
+
+if sys.argv[1:] == ["--selftest"]:
+    for cmd, want in [
+        ("cd /home/mads/git/x && uv run pytest -q", False),
+        ("PYTHONPATH=/home/mads/git/x python -m y", False),
+        ("cat .gitignore", False),
+        ("git status", True),
+        ("cd repo && git diff a.py", True),
+        ("ls; git log", True),
+        ("echo $(git rev-parse HEAD)", True),
+    ]:
+        assert bool(GIT_CMD.search(cmd)) == want, cmd
+    print("ok")
+    sys.exit()
+
 pat = sys.argv[1] if len(sys.argv) > 1 else "-"
 if pat == "-":
     # newest child of the repo this runs from; concurrent orchestrators in
@@ -40,7 +58,7 @@ facts = dict(
     cost=round(u["cost"], 6) if "cost" in u else "?",
 )
 
-calls, first_edit, evidence = [], None, False
+calls, first_edit, evidence, git_ran = [], None, False, False
 for line in open(tr) if os.path.exists(tr) else []:
     try:
         e = json.loads(line)
@@ -54,6 +72,9 @@ for line in open(tr) if os.path.exists(tr) else []:
         name = b.get("name") or "?"
         args = json.dumps(b.get("arguments") or {}, sort_keys=True)
         calls.append((name, args))
+        cmd = (b.get("arguments") or {}).get("command")
+        if name == "bash" and isinstance(cmd, str) and GIT_CMD.search(cmd):
+            git_ran = True
         if name in ("edit", "write") and first_edit is None:
             first_edit = len(calls)
         if ".evidence.md" in args:
@@ -64,7 +85,6 @@ if calls or os.path.exists(tr):
     for pair in calls:
         seen[pair] = seen.get(pair, 0) + 1
     repeats = sum(v - 1 for v in seen.values() if v > 1)
-    git_ran = any(n == "bash" and re.search(r"\bgit\b", a) for n, a in calls)
     facts.update(
         calls=len(calls),
         first_edit=f"#{first_edit}" if first_edit else "-",

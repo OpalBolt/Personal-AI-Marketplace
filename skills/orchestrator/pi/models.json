@@ -13,7 +13,7 @@
       "work": "github-copilot/gpt-5.6-luna:high",
       "fallback": "github-copilot/claude-opus-5.5:high",
       "review": "github-copilot/gpt-5.6-luna:high",
-      "note": "incident-tested: 21/21 runs finished, reviewers caught real defects"
+      "note": "finished 21/21 runs in one real plan, after spec fixes; not compared like for like"
     },
     {
       "name": "Looper stress",
