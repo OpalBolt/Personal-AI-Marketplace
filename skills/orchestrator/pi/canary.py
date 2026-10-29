@@ -12,11 +12,18 @@ import sys
 
 pat = sys.argv[1] if len(sys.argv) > 1 else "-"
 if pat == "-":
-    pat = "*"
-matches = glob.glob(os.path.expanduser(
-    f"~/.pi/agent/sessions/*/subagent-artifacts/{pat}*_meta.json"))
+    # newest child of the repo this runs from; concurrent orchestrators in
+    # other repos cannot collide with it
+    cwd_dir = "--" + os.getcwd().strip("/").replace("/", "-") + "--"
+    matches = glob.glob(os.path.expanduser(
+        f"~/.pi/agent/sessions/{cwd_dir}/subagent-artifacts/*_meta.json"))
+    label = "-"
+else:
+    matches = glob.glob(os.path.expanduser(
+        f"~/.pi/agent/sessions/*/subagent-artifacts/{pat}*_meta.json"))
+    label = pat
 if not matches:
-    sys.exit(f"canary: no artifacts match '{sys.argv[1] if len(sys.argv) > 1 else '-'}'")
+    sys.exit(f"canary: no artifacts match '{label}' (for '-', run it from the repo being orchestrated)")
 meta_path = max(matches, key=os.path.getmtime)
 
 m = json.load(open(meta_path))
