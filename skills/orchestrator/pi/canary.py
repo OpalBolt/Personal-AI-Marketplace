@@ -1,22 +1,24 @@
-#!/bin/bash
-# Canary facts for one child run — meta numbers plus call-log counts, as one
-# key=value line. usage: canary.sh <run-id-prefix | ->
-# "-" means the newest child run. Artifacts are matched newest-first across
-# all session dirs, so the caller passes nothing but a prefix.
-set -euo pipefail
+#!/usr/bin/env python3
+"""Canary facts for one child run — meta numbers plus call-log counts, as one
+key=value line. usage: canary.py <run-id-prefix | ->
+"-" means the newest child run. Artifacts are matched newest-first across
+all session dirs, so the caller passes nothing but a prefix.
+"""
+import glob
+import json
+import os
+import re
+import sys
 
-pat="$1"
-[ "$pat" = "-" ] && pat="*"
-meta=$(ls -t "$HOME"/.pi/agent/sessions/*/subagent-artifacts/${pat}*_meta.json 2>/dev/null | head -1) || true
-if [ -z "${meta:-}" ]; then
-  echo "canary: no artifacts match '${1}'" >&2
-  exit 2
-fi
+pat = sys.argv[1] if len(sys.argv) > 1 else "-"
+if pat == "-":
+    pat = "*"
+matches = glob.glob(os.path.expanduser(
+    f"~/.pi/agent/sessions/*/subagent-artifacts/{pat}*_meta.json"))
+if not matches:
+    sys.exit(f"canary: no artifacts match '{sys.argv[1] if len(sys.argv) > 1 else '-'}'")
+meta_path = max(matches, key=os.path.getmtime)
 
-python3 - "$meta" <<'EOF'
-import json, os, re, sys
-
-meta_path = sys.argv[1]
 m = json.load(open(meta_path))
 u = m.get("usage") or {}
 tr = meta_path[: -len("_meta.json")] + "_transcript.jsonl"
@@ -75,4 +77,3 @@ else:
     )
 
 print(" ".join(f"{k}={v}" for k, v in facts.items()))
-EOF

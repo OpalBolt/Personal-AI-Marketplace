@@ -11,7 +11,7 @@ pi-subagents extension (its `worker` and `reviewer` agents).
 |---|---|
 | Dispatch a sub-agent with model M | `subagent` tool; `model` takes the full `provider/id` string |
 | Hard caps | `timeoutMs` (wall clock; harness default 30m) and `toolBudget {hard, soft, block}` — past `soft` the child is nudged to finalize, past `hard` its read/grep/find/ls calls are blocked so it must finish from context. That block list is the brake for a grep-loop. The incident's healthy retry took 42 calls; set soft/hard in that order, scaled to the slice |
-| Telemetry | `canary.sh` in this directory — `canary.sh <run-id-prefix | ->` (`-` = newest child) prints one key=value line: `run agent model exit turns duration_s cost calls first_edit repeats git evidence_read`. It finds the artifacts itself; run it and read the line. A `transcript=absent` key means the Tier B facts were unavailable |
+| Telemetry | `canary.py` in this directory — `canary.py <run-id-prefix | ->` (`-` = newest child) prints one key=value line: `run agent model exit turns duration_s cost calls first_edit repeats git evidence_read`. It finds the artifacts itself; run it and read the line. A `transcript=absent` key means the Tier B facts were unavailable |
 | Ask one structured question | `ask_user_question` |
 | Read-only reviewer | the `reviewer` agent cannot run shell, and its `watchdog_diff` cannot see committed ranges — hence the evidence file as required reading |
 
