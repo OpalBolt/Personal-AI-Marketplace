@@ -2,7 +2,7 @@
 
 This reference targets Bubble Tea v1, Bubbles v1, and Lip Gloss v1. Check `go.mod` first. Keep each Charm package on the major version that the module declares. The v1 packages use `github.com/charmbracelet/bubbletea`, `github.com/charmbracelet/bubbles`, and `github.com/charmbracelet/lipgloss`.
 
-Bubble Tea v2 uses the `charm.land/bubbletea/v2`, `charm.land/bubbles/v2`, and `charm.land/lipgloss/v2` module paths. Check the v2 migration notes when `go.mod` selects those paths. V1 models return `string` from `View` and receive `tea.KeyMsg`. V2 models return `tea.View` and receive `tea.KeyPressMsg` or `tea.KeyReleaseMsg`. Also verify model interfaces, program options, and component APIs. Do not mix v1 and v2 imports. Use the versions already selected by the project instead of copying this reference's target.
+Bubble Tea v2 uses the `charm.land/bubbletea/v2`, `charm.land/bubbles/v2`, and `charm.land/lipgloss/v2` module paths. Check the v2 migration notes when `go.mod` selects those paths. V1 models return `string` from `View` and receive `tea.KeyMsg`. V2 models return `tea.View` and receive `tea.KeyPressMsg` or `tea.KeyReleaseMsg`. Also verify model interfaces, program options, and component APIs. Do not pass types or components across an incompatible v1 and v2 boundary. Use the versions already selected by the project instead of copying this reference's target.
 
 ## Model, update, and view
 
