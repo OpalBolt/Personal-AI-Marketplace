@@ -13,13 +13,14 @@ Light is the default. If a Light design needs a key loop, name the missing capab
 1. Write a plain screen transcript. Cover the initial, empty, loading, success, error, and narrow-screen states that apply.
 2. Separate domain work from UI state and rendering. Choose screens, widgets, focus order, and navigation before styling.
 3. Check `pyproject.toml` and the lock file before choosing Textual APIs. This guide targets Textual 8.x. Keep the project's major version.
-4. Load [interaction.md](references/interaction.md) for keys, focus, navigation, and component choices.
-5. Load [robustness.md](references/robustness.md) for async work, errors, terminal restore, resize, persistence, flood control, and paste limits.
-6. Load [textual-python.md](references/textual-python.md) for Textual structure, styling, state, and tests in Python projects.
-7. Load [bubbletea-go.md](references/bubbletea-go.md) for Bubble Tea, Bubbles, and Go model tests in Go projects.
-8. When stdout or stdin is not a TTY, print a plain result path, or fail with a clear stderr message and nonzero exit if no result can be produced. Never start the TUI.
-9. Test state changes without a terminal. Add a headless Pilot test that presses keys and asserts screen state for Python, or a headless Bubble Tea model test that feeds key messages into `Update` for Go.
-10. Test at 80x24 and a narrow size. Exercise quit, errors, resize, large paste, and repeated navigation.
+4. Load [patterns.md](references/patterns.md) when the app matches a dashboard, log viewer, data browser, file explorer, or form workflow.
+5. Load [interaction.md](references/interaction.md) for keys, focus, navigation, and component choices.
+6. Load [robustness.md](references/robustness.md) for async work, errors, terminal restore, resize, persistence, flood control, and paste limits.
+7. Load [textual-python.md](references/textual-python.md) for Textual structure, styling, state, and tests in Python projects.
+8. Load [bubbletea-go.md](references/bubbletea-go.md) for Bubble Tea, Bubbles, and Go model tests in Go projects.
+9. When stdout or stdin is not a TTY, print a plain result path, or fail with a clear stderr message and nonzero exit if no result can be produced. Never start the TUI.
+10. Test state changes without a terminal. Add a headless Pilot test that presses keys and asserts screen state for Python, or a headless Bubble Tea model test that feeds key messages into `Update` for Go.
+11. Test at 80x24 and a narrow size. Exercise quit, errors, resize, large paste, and repeated navigation.
 
 ## Tier rules
 
