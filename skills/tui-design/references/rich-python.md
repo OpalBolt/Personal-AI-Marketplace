@@ -8,14 +8,14 @@ Build every message as plain text first. Add style, tables, and redraw only on a
 
 Keep styling and interaction apart.
 
-- **Plain** is true when stdout is not a TTY, `NO_COLOR` is set, or `TERM=dumb`. Plain turns off color, spinners, progress refresh, and live regions. Print ordinary completed lines instead.
+- **Plain** is true when stdout is not a TTY, `NO_COLOR` is set, `TERM=dumb`, or `CI` is set. Plain turns off color, spinners, progress refresh, and live regions. Print ordinary completed lines instead.
 - **Interactive** is true when stdin and stdout are both TTYs and `CI` is not set. Only interactive runs may prompt.
 - Redraw needs interactive and not plain. `NO_COLOR` on a TTY still allows a prompt, but never a spinner or live region.
 - A pipe, redirected stdin, or CI run never prompts and never waits.
 
 ## Console policy
 
-Create one console for data on stdout and one with `stderr=True` for failures and diagnostics. Build both from the same plain decision, so every component follows one policy. Pass this console to every Rich component.
+Create one console for data on stdout and one with `stderr=True` for failures and diagnostics. Decide plain per stream: the stderr console checks whether stderr is a TTY, so redirected stderr never gets escape codes. Both consoles share the `NO_COLOR`, `TERM=dumb`, and `CI` checks. Pass this console to every Rich component.
 
 ## Styled lines
 
@@ -47,4 +47,4 @@ When the run is not interactive, read the answer from a flag or an environment v
 
 ## Check
 
-Run the same code piped to a file and search it for escape bytes. Run it with `NO_COLOR=1`, with `TERM=dumb`, with `CI=1` on a TTY, at 80 and 40 columns. The result line keeps its symbol and word in every case.
+Run the same code piped to a file and search it for escape bytes. Also redirect stderr alone and search it for escape bytes. Run it with `NO_COLOR=1`, with `TERM=dumb`, with `CI=1` on a TTY, at 80 and 40 columns. The result line keeps its symbol and word in every case.
