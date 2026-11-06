@@ -14,9 +14,9 @@ Debounce remote search. Filter locally before starting a request. Bound event an
 
 Treat missing files, failed connections, invalid queries, and timeouts as visible states. Keep the last usable data and the user's position when possible. Give each error a retry, dismiss, or back action.
 
-Restore terminal state on normal exit, errors, signals, and crashes. Install the framework's crash or panic hook before entering fullscreen so the shell receives a usable terminal. Fail before fullscreen when required startup resources are missing.
+Rely on framework-managed cleanup to restore the terminal, as Textual does in its app lifecycle. Add signal handling and a final terminal-state verification only where the framework does not cover them. Fail before fullscreen when required startup resources are missing.
 
-Keep `q` and `Ctrl+C` available in every view and modal. Make a second `Ctrl+C` an immediate escape when the first is handled by a modal or pending save.
+Keep `Ctrl+C` as the global escape. Make `q` context-sensitive and do not trigger it while a text input has focus. Make a second `Ctrl+C` an immediate escape when the first is handled by a modal or pending save.
 
 ## Resize and rendering
 

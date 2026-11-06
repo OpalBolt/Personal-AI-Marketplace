@@ -6,7 +6,7 @@ This reference targets Textual 8.x and the Go TUI library major versions declare
 
 Every action must have a keyboard path. Keep these conventions stable:
 
-- `q` and `Ctrl+C` quit or leave the current context.
+- `q` quits or leaves the current context where appropriate, but must not trigger while a text input has focus. `Ctrl+C` is the global escape.
 - `Escape` cancels, closes an overlay, or goes back.
 - `?` opens help.
 - `Tab` and `Shift+Tab` move focus.

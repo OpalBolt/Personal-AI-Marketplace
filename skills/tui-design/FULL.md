@@ -16,7 +16,7 @@ Light is the default. If a Light design needs a key loop, name the missing capab
 4. Load [interaction.md](references/interaction.md) for keys, focus, navigation, and component choices.
 5. Load [robustness.md](references/robustness.md) for async work, errors, terminal restore, resize, persistence, flood control, and paste limits.
 6. Load [textual-python.md](references/textual-python.md) for Textual structure, styling, state, and tests.
-7. Build a plain fallback for pipes, CI, `NO_COLOR`, and `TERM=dumb` when the app has an output path outside its TUI.
+7. When stdout or stdin is not a TTY, print a plain result path, or fail with a clear stderr message and nonzero exit if no result can be produced. Never start the TUI.
 8. Test state changes without a terminal. Add a headless Pilot test that presses keys and asserts screen state.
 9. Test at 80x24 and a narrow size. Exercise quit, errors, resize, large paste, and repeated navigation.
 
@@ -24,7 +24,7 @@ Light is the default. If a Light design needs a key loop, name the missing capab
 
 - Keep the render path free of blocking I/O. Put file, network, and database work in async workers or a thread worker for synchronous APIs.
 - Keep one source of truth for application state. Keep focus, cursor, scroll, and input state close to the component that owns them.
-- Give every view an escape route. Make `q` and `Ctrl+C` available from every view and modal.
+- Give every view an escape route. Keep `Ctrl+C` as a global escape. Make `q` context-sensitive and do not trigger it while a text input has focus.
 - Show the focused element clearly. Keep focus order predictable and restore focus when a user returns.
 - Pair status with a symbol and a word. Keep meaning clear without color.
 - Keep terminal restoration on normal exit, errors, signals, and crashes.

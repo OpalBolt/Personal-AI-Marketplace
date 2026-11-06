@@ -34,7 +34,7 @@ Show loading, success, timeout, and error states. Keep old data visible when a r
 
 Declare global bindings on the app and view-specific bindings on the screen or widget. Show important actions in the Footer. Use hidden bindings only for secondary movement keys.
 
-Use `Tab` and `Shift+Tab` in forms and panels. Use arrow keys or `j` and `k` in lists when the context supports them. Reserve `Escape` for cancel, close, or back. Keep `q` and `Ctrl+C` available as quit paths.
+Use `Tab` and `Shift+Tab` in forms and panels. Use arrow keys or `j` and `k` in lists when the context supports them. Reserve `Escape` for cancel, close, or back. Keep `Ctrl+C` as the global escape. Make `q` context-sensitive and do not trigger it while a text input has focus.
 
 Focus one usable control on each view. Make focus visible and restore it after returning to a screen. Trap focus inside a modal until the user confirms or cancels.
 
