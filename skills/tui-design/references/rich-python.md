@@ -4,9 +4,11 @@ Examples target **Rich 14.x**. Check the project's dependency before adding Rich
 
 Rich should improve a TTY run without changing the meaning of the plain path. Build each message as plain text first. Add styles, tables, and redraw only when stdout is a TTY and `NO_COLOR` is absent.
 
+Keep styling and interaction as separate gates. `plain` controls styling and redraw; `interactive` controls prompts and terminal animation. A prompt requires both an interactive stdin and a TTY stdout, so `NO_COLOR` must not disable a prompt on an otherwise interactive terminal. A pipe, redirected stdin, or CI run must never prompt.
+
 ## Console policy
 
-Use one `Console` for a run. Make plain mode explicit so every component follows the same policy.
+Use one `Console` for normal data on stdout. For a failure summary or diagnostic, create a matching `Console(stderr=True)` so data remains on stdout and failure output remains on stderr. Make plain mode explicit so every component follows the same policy.
 
 ```python
 # Rich 14.x
@@ -14,8 +16,10 @@ import os
 import sys
 from rich.console import Console
 
+stdout_tty = sys.stdout.isatty()
+stdin_tty = sys.stdin.isatty()
 plain = (
-    not sys.stdout.isatty()
+    not stdout_tty
     or "NO_COLOR" in os.environ
     or os.environ.get("TERM") == "dumb"
 )
@@ -23,10 +27,15 @@ console = Console(
     no_color=plain,
     force_terminal=False if plain else None,
 )
-interactive = console.is_terminal and not plain
+error_console = Console(
+    stderr=True,
+    no_color=plain,
+    force_terminal=False if plain else None,
+)
+interactive = stdin_tty and stdout_tty
 ```
 
-A pipe gets plain lines. `NO_COLOR` gets plain lines even on a TTY. Use `interactive` before starting a spinner, progress refresh, live region, or prompt.
+A pipe gets plain lines. `NO_COLOR` gets plain lines even on a TTY, but it does not change `interactive`. Use `interactive` before starting a spinner, progress refresh, live region, or prompt. Use `Console(stderr=True, ...)` for failures and diagnostics; keep normal data on `console`.
 
 ## Styled lines
 
@@ -37,7 +46,7 @@ Use a symbol and a word with each status. The word keeps the line clear without 
 console.print("[bold]Build package[/bold]")
 console.print("[green]✓ done[/green] 42 files")
 console.print("[yellow]! warning[/yellow] cache is stale")
-console.print("[red]✗ failed[/red] could not write the archive")
+error_console.print("[red]✗ failed[/red] could not write the archive")
 ```
 
 Choose a small palette. Avoid styling an entire paragraph when one label carries the meaning.
@@ -77,7 +86,7 @@ if interactive:
         "{task.completed}/{task.total}",
         console=console,
     ) as progress:
-        task = progress.add_task("Syncing records", total=3)
+        task = progress.add_task("Syncing records", total=len(records))
         for record in records:
             sync(record)
             progress.advance(task)
@@ -124,7 +133,9 @@ def worker_table(done: int, total: int) -> Table:
     return table
 
 if interactive:
-    with Live(worker_table(0, 3), console=console, refresh_per_second=8) as live:
+    with Live(
+        worker_table(0, len(items)), console=console, refresh_per_second=8
+    ) as live:
         for done, item in enumerate(items, 1):
             process(item)
             live.update(worker_table(done, len(items)))
@@ -158,7 +169,12 @@ if interactive:
 else:
     delete = False
     environment = os.environ.get("APP_ENV", "dev")
-    token = os.environ.get("APP_TOKEN", "")
+    token = os.environ.get("APP_TOKEN")
+    if not token:
+        error_console.print(
+            "✗ API token is required; set APP_TOKEN for a non-interactive run"
+        )
+        raise SystemExit(2)
     console.print(f"Using environment {environment} without prompting")
 ```
 
@@ -176,8 +192,9 @@ from rich.console import Console
 
 
 def main() -> None:
+    stdout_tty = sys.stdout.isatty()
     plain = (
-        not sys.stdout.isatty()
+        not stdout_tty
         or "NO_COLOR" in os.environ
         or os.environ.get("TERM") == "dumb"
     )

@@ -54,13 +54,11 @@ A warning remains readable without color. Do not hide it in dim text.
 
 ## Error
 
-State the failed operation, the reason when safe to show, and the recovery action. Send diagnostic detail to stderr.
+State the failed operation, the reason when safe to show, and the recovery action. Send the failure summary and diagnostic detail to stderr (for Python, use `Console(stderr=True)`). Keep data output on stdout and use a nonzero exit code for failure.
 
 ```text
 ✗ Sync failed — check the network and retry
 ```
-
-Keep the final result line on stdout when the program exits after an error. Use a nonzero exit code for failure.
 
 ## Prompt
 
