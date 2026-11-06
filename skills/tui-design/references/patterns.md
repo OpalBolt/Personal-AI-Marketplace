@@ -111,7 +111,7 @@ Use indentation and symbols to show hierarchy. Keep file-type symbols meaningful
 
 **Use it for:** Creating records, editing values, and changing configuration through several related fields.
 
-**Usual tier:** Full when fields need focus, validation, selection, or a dirty-state confirmation. Light for one-shot input with a small number of safe questions.
+**Usual tier:** Full when fields need focus, validation, selection, or a dirty-state confirmation. Light for one-shot input with one answer per prompt. A multi-question form is Full.
 
 ### Layout
 

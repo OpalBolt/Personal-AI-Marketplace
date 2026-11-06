@@ -32,7 +32,7 @@ Read [SKILL.md](../SKILL.md) for the shared contract. Read [LIGHT.md](../LIGHT.m
 - **[Light]** A progress total comes from the real input length.
 - **[Light]** A live result line appears after the live context closes.
 - **[Light]** A non-interactive prompt takes a flag, environment value, or safe default. It fails to stderr instead of waiting when no safe value exists.
-- **[Light]** Plain output has no redraw controls, animation, or blocking prompt.
+- **[Light]** Non-interactive runs (piped output, redirected stdin, or CI) have no redraw controls, animation, or blocking prompt. An interactive TTY with `NO_COLOR` or `TERM=dumb` may prompt in plain, non-redrawing mode.
 - **[Light]** Full-screen redraw meets every gate in [LIGHT.md](../LIGHT.md) and has an explicit reason.
 - **[Light]** Empty, loading, progress, success, warning, error, and prompt states have a useful line when they apply.
 

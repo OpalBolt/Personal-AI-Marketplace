@@ -14,6 +14,8 @@ Light covers:
 
 Light is the default tier. It does not own navigation, focus, or lasting view state. Those are [FULL.md](FULL.md).
 
+Verify with [references/testing.md](references/testing.md) and [references/review-checklist.md](references/review-checklist.md).
+
 ## Steps
 
 1. **Write the transcript.** Mock start, progress, result, and failure as plain text. Include every reachable state from [references/states.md](references/states.md).

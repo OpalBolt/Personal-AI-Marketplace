@@ -16,11 +16,11 @@ Run Python tests with `pytest`. Run Go tests with `go test ./...`. Both commands
 
 ## Light tests
 
-Light output has two gates. Test the plain gate and the interactive gate separately. The plain gate applies when output is piped, redirected to a file, running in CI, `TERM=dumb`, or `NO_COLOR` is set. The interactive gate requires the input and output streams to be TTYs and excludes CI.
+Light output has two gates. Test the plain gate and the interactive gate separately. The plain gate applies when output is piped, redirected to a file, running in CI, `TERM=dumb`, or `NO_COLOR` is set. The interactive gate requires the input and output streams to be TTYs and excludes CI. A pipe, redirected stdin, or CI run must not prompt or wait. An interactive TTY with `NO_COLOR` or `TERM=dumb` may prompt in plain, non-redrawing mode.
 
 ### Unit
 
-Test the policy that chooses plain or interactive output for each stream. Cover stdout and stderr independently. Check that plain output has no color, animation, redraw controls, or blocking prompt. Check that an interactive stream can use styling or redraw only when its gate passes.
+Test the policy that chooses plain or interactive output for each stream. Cover stdout and stderr independently. Check that plain output has no color, animation, or redraw controls. Check that a pipe, redirected stdin, or CI path has no blocking prompt. Check that an interactive stream can use styling or redraw only when its gate passes; an interactive TTY with `NO_COLOR` or `TERM=dumb` may prompt in plain, non-redrawing mode.
 
 Inject terminal width and test a standard 80-column layout and a narrow layout. Test truncation and wrapping by display width. Include values with wide characters, combining marks, and emoji when the tool aligns text.
 

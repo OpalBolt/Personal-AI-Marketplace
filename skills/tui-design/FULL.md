@@ -8,6 +8,8 @@ Full builds a key-driven terminal UI. Use it when the user asks for a full TUI, 
 
 Light is the default. If a Light design needs a key loop, name the missing capability and ask before you escalate. Apply the escalation question rule in [SKILL.md](SKILL.md).
 
+Verify with [references/testing.md](references/testing.md) and [references/review-checklist.md](references/review-checklist.md).
+
 ## Steps
 
 1. Write a plain screen transcript. Cover the initial, empty, loading, success, error, and narrow-screen states that apply.
