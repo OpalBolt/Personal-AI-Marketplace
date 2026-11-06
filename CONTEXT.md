@@ -76,3 +76,15 @@ A `models.json` file in the orchestrator skill's harness dir (`pi/`,
 three model roles, ids optionally suffixed `:thinking`. Read at startup
 to build the model question.
 _Avoid_: model list, model map
+
+**Light tier**:
+Terminal presentation for a running app, in the `tui-design` skill. Output
+only. Input is a one-shot prompt. Partial redraw is the default, and
+full-screen redraw is gated. The default tier.
+_Avoid_: simple mode, basic CLI
+
+**Full tier**:
+A key-driven terminal app, in the `tui-design` skill, with views, focus,
+and state that outlives a key press. Used only when asked for, or when the
+task needs all three.
+_Avoid_: rich TUI, interactive mode

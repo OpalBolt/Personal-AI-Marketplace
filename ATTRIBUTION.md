@@ -15,3 +15,11 @@ Adapted skills live in `skills/`; this file is the single record of what came fr
 | grill-with-docs (persist paragraph) | wayfinder | the one idea worth keeping from wayfinder: an unfinished session persists destination + decisions + open questions to a scratch map and resumes later; all tracker machinery (labels, claims, ticket types, fog doctrine) dropped |
 | to-spec | to-spec | tracker machinery stripped (setup-matt-pocock-skills dep, ready-for-agent label); publishes to `.scratch/<feature>/spec.md`; upstream chain noted (grill-with-docs sessions, wayfinder maps) |
 | to-tickets | to-tickets + to-issues | to-issues renamed; absorbs to-tickets' local-file publishing + per-ticket template, context-window slice sizing, prefactor look; HITL/AFK typing and KISS-first ticket rule added; expand–contract doctrine dropped (no wide refactors in this portfolio) |
+
+## [pageton/tui-design-skill](https://github.com/pageton/tui-design-skill)
+
+MIT, copyright (c) 2026 pageton.
+
+| Skill | Adapted from | What changed |
+|---|---|---|
+| tui-design | tui-design | cut to Python and Go; Rust, TypeScript, RTL, Ratatui, and Ink dropped; starter templates, sample projects, checker script, justfile, plugin manifests, and command stubs dropped; two tiers added (Light default, Full on request); references condensed into one flat folder; code examples replaced with prose rules; Rich and Lip Gloss/huh references added; Textual `work` decorator import fixed |
