@@ -9,11 +9,11 @@ For the v1 target, import Lip Gloss from `github.com/charmbracelet/lipgloss`, hu
 Keep styling and interaction apart.
 
 - **Plain** is true for an output stream when the stream is not a TTY, `NO_COLOR` is set, `TERM=dumb`, or `CI` is set. Plain output uses completed lines. It removes color, spinners, and redraws.
-- **Interactive** is true for a prompt when stdin and the prompt's output stream are TTYs and `CI` is not set. Only interactive runs may prompt.
+- **Interactive** is true for a prompt when stdin, stdout, and the prompt's output stream are all TTYs and `CI` is not set. Only interactive runs may prompt.
 - A TTY with `NO_COLOR` or `TERM=dumb` still permits prompts. The interactive prompt must use huh's accessible, non-redrawing mode whenever plain is true. It uses ordinary lines instead of color or animation.
 - A pipe, redirected stdin, or CI run never prompts and never waits. Use a flag or environment value instead, or write a clear failure to stderr and exit nonzero when a required answer is missing.
 
-Huh v1 forms render to stderr by default. Send prompts to an output stream that has been checked as a TTY, such as the TTY stream used by the form. Prompt only when both stdin and that output stream are TTYs. Otherwise use the non-interactive path.
+Huh v1 forms render to stderr by default, and to stdout in accessible mode. Always set the form's output stream explicitly to a stream checked as a TTY, so a prompt never lands in a pipe. Prompt only when stdin, stdout, and that stream are all TTYs. Otherwise use the non-interactive path.
 
 Make the decision per stream. Apply the stdout decision to data and the stderr decision to diagnostics. A redirected stderr stream also stays plain.
 
@@ -41,7 +41,7 @@ Use huh for one answer. Use a confirm for yes or no, a select for a small set of
 
 Gate every prompt on interactive stdin and the prompt's output stream. In a non-interactive run, read the answer from a flag or an environment variable. If a required answer is missing, write a clear message to stderr and exit nonzero. Never replace a missing answer with an empty string.
 
-huh supports an accessible mode for users who need a simpler prompt flow. Use accessible mode for every interactive prompt when plain is true, and offer it through the app's documented option when users need it for other interactive prompts. Keep the same validation and non-interactive gate.
+huh supports an accessible mode for users who need a simpler prompt flow. Use accessible mode for every interactive prompt when plain is true, and offer it through the app's documented option when users need it for other interactive prompts. Accessible mode drops field errors and skips a confirm's validator. Check each answer in code after the form returns, and exit nonzero on an invalid or failed answer. Keep the same non-interactive gate.
 
 ## Logging
 
