@@ -49,10 +49,8 @@ Read the current width at print time. At narrow widths, wrap or truncate by disp
 
 Document the contract for a tool:
 
-```text
-Required: UTF-8 output
-Enhanced: color and a TTY
-Fallback: plain lines in pipes, CI, files, TERM=dumb, and NO_COLOR mode
-```
+- Required: UTF-8 output
+- Enhanced: color and a TTY
+- Fallback: plain lines in pipes, CI, files, TERM=dumb, and NO_COLOR mode
 
 Test at 80 columns, 40 columns, a pipe, and `NO_COLOR=1`. Inspect piped output for escape bytes.

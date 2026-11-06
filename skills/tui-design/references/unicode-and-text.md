@@ -23,17 +23,9 @@ Combining marks join a base character. Joiner sequences form one visible symbol.
 
 Rich handles common terminal width calculations for its renderables. Use its layout and table APIs instead of hand-padding styled strings. Use `wcwidth` when application code must measure text directly.
 
-## Python examples
+## Python
 
-```python
-from wcwidth import wcswidth
-
-assert wcswidth("中文") == 4
-assert wcswidth("e\u0301") == 1
-assert wcswidth("👨\u200d💻") == 2
-```
-
-When `wcwidth` is not already a project dependency, prefer the chosen display library's helper. Do not add a second width implementation for the same path.
+Use `wcwidth` for display width. CJK counts 2 columns per character, a combining mark adds 0, and a ZWJ emoji sequence counts as 2 in total. When `wcwidth` is not already a project dependency, prefer the chosen display library's helper. Do not add a second width implementation for the same path.
 
 ## Narrow output
 

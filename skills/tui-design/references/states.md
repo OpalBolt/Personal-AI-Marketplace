@@ -6,9 +6,7 @@ Every Light run needs a useful line for each state it can reach. The line should
 
 Explain what is missing and name the next action.
 
-```text
-No records found. Add one with `tool create`.
-```
+Example: `No records found. Add one with `tool create`.`
 
 A blank table is not an empty state. A filtered empty result should name the filter and suggest how to change it.
 
@@ -16,9 +14,7 @@ A blank table is not an empty state. A filtered empty result should name the fil
 
 Show loading output at once. Name the work instead of saying only `Loading…`.
 
-```text
-… Fetching 42 packages
-```
+Example: `… Fetching 42 packages`
 
 Use a spinner when the duration is unknown. Use a count or progress bar when the work has a known total. Use one animated indicator at a time.
 
@@ -26,9 +22,7 @@ Use a spinner when the duration is unknown. Use a count or progress bar when the
 
 Show progress as work changes. Include a count when it helps the user estimate the remaining work.
 
-```text
-Syncing records 12/48
-```
+Example: `Syncing records 12/48`
 
 Keep progress output quiet when stdout is not a TTY. Print useful completed lines instead of animation.
 
@@ -36,9 +30,7 @@ Keep progress output quiet when stdout is not a TTY. Print useful completed line
 
 End with a result that names the change.
 
-```text
-✓ Sync complete — 48 records updated
-```
+Example: `✓ Sync complete — 48 records updated`
 
 Leave this line in scrollback after a live region or bordered display ends.
 
@@ -46,27 +38,21 @@ Leave this line in scrollback after a live region or bordered display ends.
 
 Explain the risk and give a safe next action.
 
-```text
-! Connection is slow — using cached data
-```
+Example: `! Connection is slow — using cached data`
 
 A warning remains readable without color. Do not hide it in dim text.
 
 ## Error
 
-State the failed operation, the reason when safe to show, and the recovery action. Send the failure summary and diagnostic detail to stderr (for Python, use `Console(stderr=True)`). Keep data output on stdout and use a nonzero exit code for failure.
+State the failed operation, the reason when safe to show, and the recovery action. Send the failure summary and diagnostic detail to stderr. Keep data output on stdout and use a nonzero exit code for failure.
 
-```text
-✗ Sync failed — check the network and retry
-```
+Example: `✗ Sync failed — check the network and retry`
 
 ## Prompt
 
 Show the default and explain each choice before asking. Destructive confirmations default to `no`.
 
-```text
-Delete the cache? [y/N]
-```
+Example: `Delete the cache? [y/N]`
 
 A non-TTY run must use a supplied value or a documented default. It must not wait for input.
 

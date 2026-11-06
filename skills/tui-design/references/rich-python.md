@@ -1,214 +1,50 @@
 # Rich for Python Light output
 
-Examples target **Rich 14.x**. Check the project's dependency before adding Rich. Keep one Rich major version across the application.
+Targets **Rich 14.x**. Check the project's dependency first. Keep one Rich major version across the app.
 
-Rich should improve a TTY run without changing the meaning of the plain path. Build each message as plain text first. Add styles, tables, and redraw only when stdout is a TTY and `NO_COLOR` is absent.
+Build every message as plain text first. Add style, tables, and redraw only on a TTY.
 
-Keep styling and interaction as separate gates. `plain` controls styling and redraw; `interactive` controls prompts and terminal animation. A prompt requires both an interactive stdin and a TTY stdout, so `NO_COLOR` must not disable a prompt on an otherwise interactive terminal. A pipe, redirected stdin, or CI run must never prompt.
+## Two gates
+
+Keep styling and interaction apart.
+
+- **Plain** is true when stdout is not a TTY, `NO_COLOR` is set, or `TERM=dumb`. Plain turns off color, spinners, progress refresh, and live regions. Print ordinary completed lines instead.
+- **Interactive** is true when stdin and stdout are both TTYs and `CI` is not set. Only interactive runs may prompt.
+- Redraw needs interactive and not plain. `NO_COLOR` on a TTY still allows a prompt, but never a spinner or live region.
+- A pipe, redirected stdin, or CI run never prompts and never waits.
 
 ## Console policy
 
-Use one `Console` for normal data on stdout. For a failure summary or diagnostic, create a matching `Console(stderr=True)` so data remains on stdout and failure output remains on stderr. Make plain mode explicit so every component follows the same policy.
-
-```python
-# Rich 14.x
-import os
-import sys
-from rich.console import Console
-
-stdout_tty = sys.stdout.isatty()
-stdin_tty = sys.stdin.isatty()
-plain = (
-    not stdout_tty
-    or "NO_COLOR" in os.environ
-    or os.environ.get("TERM") == "dumb"
-)
-console = Console(
-    no_color=plain,
-    force_terminal=False if plain else None,
-)
-error_console = Console(
-    stderr=True,
-    no_color=plain,
-    force_terminal=False if plain else None,
-)
-interactive = stdin_tty and stdout_tty
-```
-
-A pipe gets plain lines. `NO_COLOR` gets plain lines even on a TTY, but it does not change `interactive`. Use `interactive` before starting a spinner, progress refresh, live region, or prompt. Use `Console(stderr=True, ...)` for failures and diagnostics; keep normal data on `console`.
+Create one console for data on stdout and one with `stderr=True` for failures and diagnostics. Build both from the same plain decision, so every component follows one policy. Pass this console to every Rich component.
 
 ## Styled lines
 
-Use a symbol and a word with each status. The word keeps the line clear without color.
-
-```python
-# Rich 14.x
-console.print("[bold]Build package[/bold]")
-console.print("[green]✓ done[/green] 42 files")
-console.print("[yellow]! warning[/yellow] cache is stale")
-error_console.print("[red]✗ failed[/red] could not write the archive")
-```
-
-Choose a small palette. Avoid styling an entire paragraph when one label carries the meaning.
+Pair each status with a symbol and a word: `✓ done`, `! warning`, `✗ failed`. Use at most 4 colors. Style the label, not the paragraph.
 
 ## Tables
 
-Use `Table` for a fixed snapshot. Let Rich calculate column widths. Give long values a sensible maximum or shorten them before adding the row.
-
-```python
-# Rich 14.x
-from rich.table import Table
-
-summary = Table(title="Packages")
-summary.add_column("Name")
-summary.add_column("Status")
-summary.add_column("Files", justify="right")
-summary.add_row("core", "✓ ready", "42")
-summary.add_row("docs", "! skipped", "0")
-console.print(summary)
-```
-
-A table is not a log. Use one line per event when the user needs a history of work.
+Use `Table` for a snapshot with fixed columns. Let Rich size the columns. Shorten long values before adding the row. Use log lines, not a table, for events over time.
 
 ## Progress bars
 
-Use `Progress` when the total is known. A pipe should receive completed lines, not a refreshing bar.
-
-```python
-# Rich 14.x
-from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
-
-if interactive:
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("{task.description}"),
-        BarColumn(),
-        "{task.completed}/{task.total}",
-        console=console,
-    ) as progress:
-        task = progress.add_task("Syncing records", total=len(records))
-        for record in records:
-            sync(record)
-            progress.advance(task)
-else:
-    for number, record in enumerate(records, 1):
-        sync(record)
-        console.print(f"Syncing records {number}/{len(records)}")
-```
-
-Keep one progress bar on screen unless several rows belong to one table. End with a result line after the context closes.
+Use `Progress` when the total is known. Take the total from the real input length. Show a spinner column, a description that names the work, a bar, and a count. In plain mode, print one line per step with its count. Keep one bar on screen unless several rows belong to one table. Print the result line after the context closes.
 
 ## Spinner
 
-Use a spinner when the duration has no useful total. Name the work. `console.status` stops cleanly when its context ends.
-
-```python
-# Rich 14.x
-if interactive:
-    with console.status("Fetching package metadata", spinner="dots"):
-        fetch_metadata()
-else:
-    console.print("Fetching package metadata")
-    fetch_metadata()
-console.print("[green]✓ done[/green] package metadata fetched")
-```
-
-Do not animate a pipe or CI log. Do not show a spinner and a progress bar for the same operation.
+Use `console.status` when there is no useful total. Name the work. In plain mode, print one line that names the work before it starts. Never show a spinner and a bar for the same operation.
 
 ## Live region
 
-Use `Live` for a short region whose content changes. Partial redraw is the default Light redraw. Keep the final result outside the live context so it remains in scrollback.
+Use `Live` for a short region whose content changes. Partial redraw is the default. Keep the final result line outside the live context so it stays in scrollback. In plain mode, print a line per update or per milestone.
 
-```python
-# Rich 14.x
-from rich.live import Live
-from rich.table import Table
-
-
-def worker_table(done: int, total: int) -> Table:
-    table = Table(title="Workers")
-    table.add_column("Task")
-    table.add_column("State")
-    table.add_row("Index files", f"{done}/{total}")
-    return table
-
-if interactive:
-    with Live(
-        worker_table(0, len(items)), console=console, refresh_per_second=8
-    ) as live:
-        for done, item in enumerate(items, 1):
-            process(item)
-            live.update(worker_table(done, len(items)))
-else:
-    for done, item in enumerate(items, 1):
-        process(item)
-        console.print(f"Processing {done}/{len(items)}")
-
-console.print("[green]✓ done[/green] all workers finished")
-```
-
-Use a full-screen redraw only when the gate in [../LIGHT.md](../LIGHT.md) passes. In particular, it needs a TTY, no key loop, a changing whole display, a user request or a stated reason, and a final line on every exit path including Ctrl+C. A live region is usually the smaller choice.
+Use a full-screen redraw only when the gate in [../LIGHT.md](../LIGHT.md) passes.
 
 ## One-shot prompts
 
-Ask only for one answer. Show the default. Keep prompts out of non-TTY runs.
+Use `Confirm.ask` and `Prompt.ask` with `default=` set and `console=` passed. Use `password=True` for secrets. Destructive confirms default to no.
 
-```python
-# Rich 14.x
-from rich.prompt import Confirm, Prompt
+When the run is not interactive, read the answer from a flag or an environment variable. If a required value is missing, print a clear message to stderr and exit nonzero. Never substitute an empty string.
 
-if interactive:
-    delete = Confirm.ask("Delete the cache?", default=False, console=console)
-    environment = Prompt.ask(
-        "Environment",
-        choices=["dev", "prod"],
-        default="dev",
-        console=console,
-    )
-    token = Prompt.ask("API token", password=True, console=console)
-else:
-    delete = False
-    environment = os.environ.get("APP_ENV", "dev")
-    token = os.environ.get("APP_TOKEN")
-    if not token:
-        error_console.print(
-            "✗ API token is required; set APP_TOKEN for a non-interactive run"
-        )
-        raise SystemExit(2)
-    console.print(f"Using environment {environment} without prompting")
-```
+## Check
 
-A destructive confirmation defaults to `False`. Require a flag or environment value when a non-TTY run cannot use a safe default. Return a clear error instead of waiting.
-
-## Plain fallback
-
-This small example targets **Rich 14.x** and exercises the policy that matters most. It prints plain lines when piped, styled output on a TTY, and plain output when `NO_COLOR` is set.
-
-```python
-# Rich 14.x
-import os
-import sys
-from rich.console import Console
-
-
-def main() -> None:
-    stdout_tty = sys.stdout.isatty()
-    plain = (
-        not stdout_tty
-        or "NO_COLOR" in os.environ
-        or os.environ.get("TERM") == "dumb"
-    )
-    console = Console(
-        no_color=plain,
-        force_terminal=False if plain else None,
-    )
-    console.print("[bold]Backup[/bold]")
-    console.print("[green]✓ done[/green] 3 files copied")
-    console.print("[yellow]! warning[/yellow] cache was skipped")
-
-
-if __name__ == "__main__":
-    main()
-```
-
-Check the plain path by piping to a file and searching for escape bytes. Check `NO_COLOR=1` in a TTY and in a pipe. The final result should still include the status symbol and word.
+Run the same code piped to a file and search it for escape bytes. Run it with `NO_COLOR=1`, with `TERM=dumb`, with `CI=1` on a TTY, at 80 and 40 columns. The result line keeps its symbol and word in every case.
