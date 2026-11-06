@@ -2,16 +2,18 @@
 
 This reference targets Lip Gloss 1.x, huh 1.x, and charmbracelet/log 1.x. Check the project's `go.mod` before using these package paths or APIs. Lip Gloss, huh, and Bubble Tea have v2 releases with API changes.
 
-For the v1 target, import Lip Gloss from `github.com/charmbracelet/lipgloss`, huh from `github.com/charmbracelet/huh`, and logging from `github.com/charmbracelet/log`. Huh's standalone spinner is a separate module at `github.com/charmbracelet/huh/spinner`. Check that module in `go.mod` too. The v2 paths use `charm.land/lipgloss/v2`, `charm.land/huh/v2`, and `charm.land/log/v2`. Match every import and API to the versions in `go.mod`. Do not mix major versions in one app.
+For the v1 target, import Lip Gloss from `github.com/charmbracelet/lipgloss`, huh from `github.com/charmbracelet/huh`, and logging from `github.com/charmbracelet/log`. Huh's standalone spinner is a separate module at `github.com/charmbracelet/huh/spinner`. Check that module in `go.mod` too. The v2 paths use `charm.land/lipgloss/v2`, `charm.land/huh/v2`, and `charm.land/log/v2`. Match every import and API to the versions in `go.mod`. Do not mix incompatible major versions of the same library or its direct API. Separate modules may use different major versions, such as a standalone huh spinner at v0 alongside v1 libraries. Read each module's version from `go.mod`.
 
 ## Two gates
 
 Keep styling and interaction apart.
 
-- **Plain** is true when the output stream is not a TTY, `NO_COLOR` is set, `TERM=dumb`, or `CI` is set. Plain output uses completed lines. It removes color, spinners, and redraws.
-- **Interactive** is true when stdin and stdout are TTYs and `CI` is not set. Only interactive runs may prompt.
-- A TTY with `NO_COLOR` still permits prompts. It uses ordinary lines instead of color or animation.
-- A pipe, redirected stdin, or CI run never prompts and never waits.
+- **Plain** is true for an output stream when the stream is not a TTY, `NO_COLOR` is set, `TERM=dumb`, or `CI` is set. Plain output uses completed lines. It removes color, spinners, and redraws.
+- **Interactive** is true for a prompt when stdin and the prompt's output stream are TTYs and `CI` is not set. Only interactive runs may prompt.
+- A TTY with `NO_COLOR` or `TERM=dumb` still permits prompts. The interactive prompt must use huh's accessible, non-redrawing mode whenever plain is true. It uses ordinary lines instead of color or animation.
+- A pipe, redirected stdin, or CI run never prompts and never waits. Use a flag or environment value instead, or write a clear failure to stderr and exit nonzero when a required answer is missing.
+
+Huh v1 forms render to stderr by default. Send prompts to an output stream that has been checked as a TTY, such as the TTY stream used by the form. Prompt only when both stdin and that output stream are TTYs. Otherwise use the non-interactive path.
 
 Make the decision per stream. Apply the stdout decision to data and the stderr decision to diagnostics. A redirected stderr stream also stays plain.
 
@@ -35,11 +37,11 @@ Start a spinner only when the output stream is interactive and color is allowed.
 
 ## One-shot prompts
 
-Use huh for one answer. Use a confirm for yes or no, a select for a small set of choices, an input for text, and a password field for secrets. Set a visible default. Set destructive confirms to `no` by default. Explain each choice in the prompt.
+Use huh for one answer. Use a confirm for yes or no, a select for a small set of choices, an input for text, and a password field for secrets. Set a visible default for non-secret fields. Password and other secret prompts never have a default. Set destructive confirms to `no` by default. Explain each choice in the prompt.
 
-Gate every prompt on an interactive stdin and stdout. In a non-interactive run, read the answer from a flag or an environment variable. If a required answer is missing, write a clear message to stderr and exit nonzero. Never replace a missing answer with an empty string.
+Gate every prompt on interactive stdin and the prompt's output stream. In a non-interactive run, read the answer from a flag or an environment variable. If a required answer is missing, write a clear message to stderr and exit nonzero. Never replace a missing answer with an empty string.
 
-huh supports an accessible mode for users who need a simpler prompt flow. Offer it through the app's documented option when the task needs accessible interaction. Keep the same validation and non-interactive gate.
+huh supports an accessible mode for users who need a simpler prompt flow. Use accessible mode for every interactive prompt when plain is true, and offer it through the app's documented option when users need it for other interactive prompts. Keep the same validation and non-interactive gate.
 
 ## Logging
 
@@ -51,7 +53,7 @@ Apply the plain decision to the logger's output stream. A pipe, `NO_COLOR`, `TER
 
 Build each message as plain text first. Add Lip Gloss styles, a huh spinner, or redraw only after the stream decision allows it. A pipe must receive completed lines with no escape bytes and no animation. A TTY may receive styled lines and a spinner.
 
-Use ordinary lines for each step in plain mode. Keep the final result line after any live operation. Preserve the status symbol and word in every mode. A prompt either takes a flag or environment value in plain mode or fails clearly on stderr with a nonzero exit.
+Use ordinary lines for each step in plain mode. Keep the final result line after any live operation. Preserve the status symbol and word in every mode. An interactive prompt in plain mode uses huh's accessible mode. A non-interactive prompt takes a flag or environment value or fails clearly on stderr with a nonzero exit.
 
 A full-screen redraw needs the gate in [../LIGHT.md](../LIGHT.md). Light output has no key loop. Prefer ordinary lines or a short partial redraw when the gate does not pass.
 
