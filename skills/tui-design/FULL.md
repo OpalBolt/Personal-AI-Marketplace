@@ -15,10 +15,11 @@ Light is the default. If a Light design needs a key loop, name the missing capab
 3. Check `pyproject.toml` and the lock file before choosing Textual APIs. This guide targets Textual 8.x. Keep the project's major version.
 4. Load [interaction.md](references/interaction.md) for keys, focus, navigation, and component choices.
 5. Load [robustness.md](references/robustness.md) for async work, errors, terminal restore, resize, persistence, flood control, and paste limits.
-6. Load [textual-python.md](references/textual-python.md) for Textual structure, styling, state, and tests.
-7. When stdout or stdin is not a TTY, print a plain result path, or fail with a clear stderr message and nonzero exit if no result can be produced. Never start the TUI.
-8. Test state changes without a terminal. Add a headless Pilot test that presses keys and asserts screen state.
-9. Test at 80x24 and a narrow size. Exercise quit, errors, resize, large paste, and repeated navigation.
+6. Load [textual-python.md](references/textual-python.md) for Textual structure, styling, state, and tests in Python projects.
+7. Load [bubbletea-go.md](references/bubbletea-go.md) for Bubble Tea, Bubbles, and Go model tests in Go projects.
+8. When stdout or stdin is not a TTY, print a plain result path, or fail with a clear stderr message and nonzero exit if no result can be produced. Never start the TUI.
+9. Test state changes without a terminal. Add a headless Pilot test that presses keys and asserts screen state for Python, or a headless Bubble Tea model test that feeds key messages into `Update` for Go.
+10. Test at 80x24 and a narrow size. Exercise quit, errors, resize, large paste, and repeated navigation.
 
 ## Tier rules
 
