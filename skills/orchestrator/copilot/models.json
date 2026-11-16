@@ -1,0 +1,19 @@
+{
+  "_readme": "Presets curated by hand — the startup question offers them as options; edit freely. Each preset names the three model roles as Copilot CLI model ids; an optional :effort suffix (e.g. gpt-5.6-luna:high) maps to the task tool's reasoning_effort.",
+  "presets": [
+    {
+      "name": "Proven",
+      "work": "github-copilot/gpt-5.6-luna:high",
+      "fallback": "github-copilot/claude-sonnet-5.5:high",
+      "review": "github-copilot/claude-sonnet-5.5:high",
+      "note": "This setup uses some reasonble models that are not all to expensive"
+    },
+    {
+      "name": "Cheap",
+      "work": "claude-haiku-4.5",
+      "fallback": "gpt-5.6-luna:high",
+      "review": "gpt-5.6-luna:high",
+      "note": "cheap worker; a trip switches to luna"
+    },
+  ]
+}
