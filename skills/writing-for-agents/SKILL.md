@@ -1,11 +1,13 @@
 ---
 name: writing-for-agents
-description: Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.
+description: Writing documents for agents. Use when creating or editing skills, or when writing, regenerating, or modifying AGENTS.md or CLAUDE.md.
 ---
 
 Reference for writing any document an agent consumes — a skill, an `AGENTS.md` / `CLAUDE.md`, a doc reached by a pointer. The packaging differs; the writing does not: the same levers make each one predictable — the agent taking the same _process_ every run, not producing the same output.
 
 When the document you're writing is a skill, read [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md) for frontmatter, invocation choice, and router skills.
+
+When it is a project's root `AGENTS.md` (new or regenerated), follow [`AGENTS-MD.md`](AGENTS-MD.md) for the introspect-and-survey workflow and output template.
 
 ## Context pointers
 

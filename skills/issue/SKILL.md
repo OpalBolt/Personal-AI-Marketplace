@@ -9,6 +9,7 @@ description: >
   description of desired functionality or a problem that needs solving. Don't wait for the
   user to ask explicitly — if they describe something that should be tracked, offer to create
   an issue.
+disable-model-invocation: true
 ---
 
 # Issue Creator

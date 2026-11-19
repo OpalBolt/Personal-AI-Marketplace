@@ -1,6 +1,7 @@
 ---
 name: orchestrator
-description: Run a pre-sliced plan to completion, unattended. Hand it a .scratch topic directory (produced by jam-with-me and to-tickets); it refines each slice into a worker spec, dispatches a leaf worker under hard caps, commits, then a leaf reviewer verifies the diff and confirms the tests. A canary checks every child's telemetry; a tripped role switches to the fallback model, and the run never stops to ask. Findings loop through the worker once, then the slice retries or skips. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
+description: Run a pre-sliced plan to completion, unattended. Hand it a .scratch topic directory of to-tickets slices; for each slice it dispatches a leaf worker under hard caps and commits, then a dedicated leaf reviewer judges the diff against the slice's acceptance criteria and standards, citing the trust-command output. A canary checks every child's telemetry; a tripped role switches to the fallback model, and the run never stops to ask. Findings loop through the worker once, then the slice retries or skips. Use when the user says "orchestrate", "run the plan", "execute the slices", "run this overnight", or wants a sliced plan run autonomously end-to-end. Does not plan or slice; it only executes.
+disable-model-invocation: true
 ---
 
 # Orchestrator
@@ -81,7 +82,10 @@ For each slice, in order:
    if it blocks again, skip or stop (see Blocked).
 6. **Review.** Reviewer on the review model, its spec rendered by
    `mkreview.sh`, the evidence file as required reading. Canary the reviewer
-   like a worker. `approve`: next slice. `issues`: write a fix spec from the
+   like a worker. The reviewer is read-only and judges two axes in one pass:
+   every acceptance criterion met (spec), and bugs, needless code, missing
+   tests, out-of-lane changes (standards). It confirms tests from the
+   evidence file's trust-command output, never by running them. `approve`: next slice. `issues`: write a fix spec from the
    findings, dispatch the worker again, commit, rebuild the evidence,
    re-review **once**. Still issues: the slice is blocked.
 7. **Close the run.** After the last slice, run the trust command once more

@@ -6,6 +6,7 @@ description: >
   Use this skill whenever you are about to run `gh pr create`, open a pull request, or produce
   a PR for completed work. Also use it at the end of any autonomous agent loop that resolves
   a GitHub issue — even if the user didn't explicitly ask for a PR.
+disable-model-invocation: true
 ---
 
 # PR Skill

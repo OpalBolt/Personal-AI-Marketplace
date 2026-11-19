@@ -60,19 +60,17 @@ When a session dies mid-move and no artifact covers the work yet, `/handoff` com
 | `/issue` | File work in a tracker (GitHub, Linear, Jira) |
 | `/handoff` | Hand a dying session to the next agent |
 | `/orchestrator` | Run a pre-sliced plan unattended (rethink pending) |
-| `/agent-writer` | Write or regenerate a project's `AGENTS.md` |
 | `grilling` | Stress-test a plan without the domain capture (the primitive under grill-with-docs) |
-| `code-review` | Review a diff against standards and spec |
 | `git-commit` | Write well-formed Conventional Commits |
-| `pr` | Open a pull request with full context |
+| `/pr` | Open a pull request with full context |
 | `markdown-writer` | Write prose that reads human |
-| `writing-for-agents` | Author or edit skills — the standard for this repo |
+| `writing-for-agents` | Author skills; write or regenerate a project's `AGENTS.md` |
 
 ## Where things live
 
 - Planning artifacts — specs, tickets, maps: `.scratch/<feature>/` in the project. Untracked scratch.
 - Domain docs — `CONTEXT.md` and `docs/adr/`: in the project repo. Tracked.
-- `AGENTS.md`: each project's rules. It names that project's artifact home, so repos on GitHub Issues or Jira override the `.scratch/` default. `/agent-writer` writes it.
+- `AGENTS.md`: each project's rules. It names that project's artifact home, so repos on GitHub Issues or Jira override the `.scratch/` default. `writing-for-agents` writes it.
 
 ## Conventions
 

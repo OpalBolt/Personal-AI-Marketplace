@@ -7,7 +7,6 @@ Adapted skills live in `skills/`; this file is the single record of what came fr
 | Skill | Adapted from | What changed |
 |---|---|---|
 | grilling | grilling | tracker fetch added in front; refine-issue trigger phrases absorbed; replaces interview-me |
-| code-review | code-review | setup-matt-pocock-skills and issue-tracker-doc machinery dropped; spec fetched via `gh issue view` |
 | prototype | prototype | examples translated from TypeScript to Python / neutral pseudo-code |
 | handoff | handoff | "Skill tool" phrasing neutralized |
 | writing-for-agents | writing-for-agents | adopted verbatim; replaces skill-creator as the skill-authoring standard |

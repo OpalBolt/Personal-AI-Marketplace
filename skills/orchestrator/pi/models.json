@@ -3,16 +3,16 @@
   "presets": [
     {
       "name": "Default",
-      "work": "zai/glm-5.3-flash",
-      "fallback": "zai/glm-5.3",
-      "review": "zai/glm-5.3",
+      "work": "zai/glm-5.3-flash:low",
+      "fallback": "zai/glm-5.3:low",
+      "review": "zai/glm-5.3-flash:high",
       "note": "cheap workhorse; stronger net and review"
     },
     {
-      "name": "Proven",
+      "name": "github-light",
       "work": "github-copilot/gpt-5.6-luna:high",
-      "fallback": "github-copilot/claude-opus-5.5:high",
-      "review": "github-copilot/gpt-5.6-luna:high",
+      "fallback": "github-copilot/claude-sonnet-5.5:high",
+      "review": "github-copilot/gpt-6.1-terra:high",
       "note": "finished 21/21 runs in one real plan, after spec fixes; not compared like for like"
     },
     {

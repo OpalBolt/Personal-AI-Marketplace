@@ -1,6 +1,7 @@
 ---
 name: grilling
 description: Grill the user relentlessly about a plan, decision, issue, or idea until nothing is silently assumed — rounds of frontier questions, each with a recommended answer. The convergent mode (jam-with-me is the divergent one). Use when the user wants to stress-test their thinking, uses any 'grill' trigger phrase, or wants an issue refined into an implementation-ready spec ('refine issue #123', 'improve this issue', 'clarify issue #X').
+disable-model-invocation: true
 ---
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.

@@ -1,6 +1,7 @@
 ---
 name: tui-design
 description: Design, build, review, or fix terminal presentation in Python or Go. Use for CLI output, dashboards, log viewers, Rich or Textual apps, Lip Gloss or Bubble Tea apps, terminal fallbacks, Unicode width, or headless TUI tests.
+disable-model-invocation: true
 ---
 
 # TUI Design

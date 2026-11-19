@@ -1,11 +1,6 @@
----
-name: agent-writer
-description: Write or regenerate the root AGENTS.md context file for a project by introspecting the repo and interviewing the user for only what cannot be inferred. Use when user wants to create, write, or regenerate an AGENTS.md, or mentions agents.md, context file, or onboarding an agent to a project.
----
+# Writing a root AGENTS.md
 
-# Agent Writer
-
-Write a tight `AGENTS.md` at the repo root. Not persona agents. Not `.github/agents/*.md`. One file, root level. For how to write it — pointer wording, information hierarchy, pruning — follow `writing-for-agents`; this skill owns the workflow, not the writing style.
+Write a tight `AGENTS.md` at the repo root. Not persona agents. Not `.github/agents/*.md`. One file, root level. The writing rules (pointer wording, hierarchy, pruning) are in [`SKILL.md`](SKILL.md); this file owns the workflow.
 
 ## Governing Principle
 
@@ -16,7 +11,7 @@ Include only what an agent cannot infer from the repo or its training. Everythin
 1. **Confirm scope** — "I'll write `AGENTS.md` covering overview, commands, boundaries, and one static code-style line. Sound right?"
 2. **Introspect first** — run the checklist below before asking anything. The survey confirms what you found; it doesn't fill blanks.
 3. **Run the survey** — four questions, show-your-work style.
-4. **Oddities → jam** — if Q4 surfaces anything weird or counterintuitive, invoke `jam-with-me` to unpack it; harvest the result into overview or boundaries.
+4. **Oddities → grill** — if Q4 surfaces anything weird or counterintuitive, run `grilling` on it; harvest the result into overview or boundaries.
 5. **Draft** — fill the output template using introspected + surveyed data only.
 6. **Overwrite** — write to `AGENTS.md`. If one exists, overwrite. Do not diff or merge — the old file is a disposable snapshot, not a hand-curated artifact. Git tracks the change.
 7. **Report** — "Written to `AGENTS.md`. Run `git diff` to see what changed."
@@ -43,7 +38,7 @@ Every question shows introspected work and asks for confirmation or correction �
    - ✅ **Always:** run lint before commit; list only human authors in commits
    - ⚠️ **Ask first:** database schema changes; adding new dependencies
    - 🚫 **Never:** commit secrets or `.env`; force push to main; modify generated/vendored files
-4. **Oddities** — "Anything about this project that looks wrong to an outsider but is intentional?" If yes → `jam-with-me`.
+4. **Oddities** — "Anything about this project that looks wrong to an outsider but is intentional?" If yes → `grilling`.
 5. **Artifacts** — "Specs, tickets, and planning maps default to `.scratch/` (local markdown, untracked). Keep that, or does this repo use a real tracker (GitHub Issues, Jira, …)?" Record the answer in the template's Artifacts section — agents cannot infer where a repo's planning artifacts live.
 
 ## Output Template
