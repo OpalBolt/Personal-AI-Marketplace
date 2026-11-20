@@ -10,9 +10,11 @@ pi-subagents extension (its `worker` and `reviewer` agents).
 | Capability | In Pi |
 |---|---|
 | Dispatch a sub-agent with model M | `subagent` tool; `model` takes the full `provider/id` string |
+| Dispatch into a Worktree | `subagent` tool; `worktree_path` sets the child's checkout to the Worktree — the path `worktree.sh new` printed. The child's cwd also keys its telemetry |
 | Hard caps | `timeoutMs` (wall clock; harness default 30m) and `toolBudget {hard, soft, block}` — past `soft` the child is nudged to finalize, past `hard` its read/grep/find/ls calls are blocked so it must finish from context. That block list is the brake for a grep-loop. The incident's healthy retry took 42 calls; set soft/hard in that order, scaled to the slice |
 | Telemetry | `canary.py` in this directory — `canary.py <run-id-prefix | ->` prints one key=value line: `run agent model exit turns duration_s cost calls first_edit repeats git evidence_read`. `-` means the newest child of the repo you run it from (it never reaches another repo's children, so concurrent orchestrators can't canary each other); dispatch results carry no run id, so `-` is the normal mode — pass a prefix only when you have one. A `transcript=absent` key means the Tier B facts were unavailable |
 | Ask one structured question | `ask_user_question` |
+| Canary by cwd | `canary.py -` reports the newest child of the repo it runs from: run it in the Worktree to canary a worker, in main to canary a reviewer (one review at a time keeps `-` unambiguous) |
 | Read-only reviewer | the `reviewer` agent cannot run shell, and its `watchdog_diff` cannot see committed ranges — hence the evidence file as required reading |
 
 Harnesses without a capability use the fallbacks the skill names: no turn
