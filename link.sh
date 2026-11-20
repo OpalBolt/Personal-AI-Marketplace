@@ -72,6 +72,8 @@ for entry in "${tools[@]}"; do
 
   link_contents "$STAGE_ROOT/skills" "$dest" "$name"
 
+  # agents dir is assumed to sit next to each tool's skills dir; give a row
+  # an explicit agents path if a tool ever breaks that assumption
   agents_src="$SCRIPT_DIR/$name/agents"
   [ -d "$agents_src" ] || continue
   stage_contents "$agents_src" "$STAGE_ROOT/$name-agents"
