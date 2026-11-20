@@ -14,9 +14,9 @@ resolved mid-run.
 _Avoid_: model map, model mapping
 
 **Orchestrator**:
-The primary agent that runs a topic's slices sequentially, unattended. Owns
-git, commits, triage, and the status prints. Never implements or reviews
-itself.
+The primary agent that runs a topic's slices — up to the worker cap in
+flight — unattended. Owns git, commits, triage, and the status prints. Never
+implements or reviews itself.
 _Avoid_: runner, agent-in-charge
 
 **Topic dir**:
@@ -48,6 +48,34 @@ _Avoid_: review report, findings list
 The check the orchestrator runs after every child dispatch, comparing the
 child's telemetry against the trip signals.
 _Avoid_: health check, gate
+
+**Lane**:
+The set of files a slice names as in scope. Two slices whose lanes intersect
+never run at the same time — the scheduler serializes them.
+_Avoid_: file scope, ownership
+
+**Ready set**:
+The slices whose `Blocked by` are all done and whose lanes are disjoint from
+every in-flight slice. What the scheduler dispatches from.
+_Avoid_: available slices, unlocked slices
+
+**In flight**:
+Dispatched but not yet merged and approved. A slice's worktree lives exactly
+this long.
+_Avoid_: running, active slice
+
+**Worktree**:
+A linked git worktree at `.scratch/worktrees/<topic>-<run-id>/<slice-slug>`,
+branched at dispatch. The run-id keeps repeated topic names from colliding.
+One slice's isolation: its own HEAD, index, and tree for trust runs. Removed
+when the slice closes.
+_Avoid_: branch, checkout, clone
+
+**Merge-back**:
+The orchestrator moving a worktree's slice commit into the main checkout —
+fast-forward when main never moved, a merge commit when slices interleaved.
+The orchestrator runs all git; workers still never do.
+_Avoid_: combining, integrating
 
 **Trip**:
 A canary signal firing on a child.
