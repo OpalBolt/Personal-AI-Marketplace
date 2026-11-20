@@ -32,6 +32,7 @@ Break the work into **tracer bullet** tickets.
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit a single fresh context window
 - Prefer many thin slices over few thick ones
+- Slices with no blockers and disjoint files-in-scope can run in parallel; overlap is fine — it just serializes
 
 </vertical-slice-rules>
 
