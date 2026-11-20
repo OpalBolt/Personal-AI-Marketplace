@@ -78,9 +78,9 @@ cap is full or nothing is Ready, wait for a landing.
   worker slot; reviewers are exempt. One review at a time.
 - **Uniform Worktrees**: every slice runs in one — even when it is the only
   slice In flight. No main-checkout worker path, no mode flag.
-- A harness that cannot dispatch into a Worktree (its HARNESS.md says so)
+- A harness whose HARNESS.md carries no `Dispatch into a Worktree` row
   degrades to cap 1: the same loop, sequential. The uniform-worktree rule
-  still holds wherever the harness can dispatch into one.
+  still holds wherever the row exists.
 
 For each slice, in dispatch order:
 
